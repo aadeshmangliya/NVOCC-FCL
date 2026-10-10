@@ -435,6 +435,42 @@ foreach ($items as &$item) {
 }
 unset($item);
 
+// ============================================================
+// Bill of Lading specific fields (container marks, cargo description, totals, etc.)
+// ============================================================
+$blMarksHtml = '';
+$blCargoDescHtml = '';
+$blNetWeight = 0;
+$blDescParts = [];
+foreach ($containers as $container) {
+    $cid = $container['id'] ?? null;
+    $rows = $containerCargoMap[$cid] ?? [];
+    $blMarksHtml .= '<div style="margin-bottom:8px;">'
+        . htmlspecialchars(trim(($container['container_no'] ?? '') . '/' . ($container['container_type'] ?? ''), '/'))
+        . '<br>' . htmlspecialchars($container['seal_no'] ?? '') . '</div>';
+    foreach ($rows as $row) {
+        $blNetWeight += (float)($row['net_weight'] ?? 0);
+        $blDescParts[] = [
+            'pk' => (int)($row['num_packages'] ?? 0),
+            'pt' => $row['package_type'] ?? 'PACKAGES',
+            'gd' => $row['goods_description'] ?? '',
+            'hs' => $row['hs_code'] ?? '',
+        ];
+    }
+}
+foreach ($blDescParts as $d) {
+    $blCargoDescHtml .= '<div style="margin-bottom:6px;">'
+        . htmlspecialchars($d['pk'] . ' ' . $d['pt'] . ' OF ' . $d['gd'])
+        . ($d['hs'] !== '' ? '<br>HS CODE: ' . htmlspecialchars($d['hs']) : '')
+        . '</div>';
+}
+if ($blCargoDescHtml === '') {
+    $blCargoDescHtml = htmlspecialchars($shipment['goods_description'] ?? '');
+}
+$blFreightTerms = strtolower((string)($shipment['freight_terms'] ?? ''));
+$blTotalFreight = $shipment['total_freight'] ?? '';
+$blPlaceIssue = $shipment['place_of_issue'] ?? '';
+
 // Prepare data for template
 $data = array_merge($shipment, $firstContainer, [
     'company_name' => $company['name'],
@@ -486,7 +522,21 @@ $data = array_merge($shipment, $firstContainer, [
     // (shipper_country, shipper_port come from shipment_shippers)
     'cargo_type' => $shipment['cargo_type'] ?? 'Containerized',
     'item_rows_html' => $igmItemRowsHtml,
-    'igm_container_rows_html' => $igmContainerRowsHtml
+    'igm_container_rows_html' => $igmContainerRowsHtml,
+
+    // ---- Bill of Lading specific fields ----
+    'container_marks_html' => $blMarksHtml,
+    'cargo_description_html' => $blCargoDescHtml,
+    'gross_weight' => $grandTotalWeight > 0 ? number_format($grandTotalWeight, 3, '.', '') : ($shipment['gross_weight'] ?? ''),
+    'net_weight' => $blNetWeight > 0 ? number_format($blNetWeight, 3, '.', '') : ($shipment['net_weight'] ?? ''),
+    'measurement' => $grandTotalCbm > 0 ? number_format($grandTotalCbm, 3, '.', '') . ' CBM' : '',
+    'total_containers' => count($containers),
+    'charges_rows_html' => '<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>',
+    'total_freight_prepaid' => strpos($blFreightTerms, 'prepaid') !== false ? $blTotalFreight : '',
+    'total_freight_collect' => strpos($blFreightTerms, 'collect') !== false ? $blTotalFreight : '',
+    'governing_law' => $shipment['governing_law'] ?? $blPlaceIssue,
+    'jurisdiction_place' => $shipment['jurisdiction_place'] ?? $blPlaceIssue,
+    'signatory_location' => $blPlaceIssue
 ]);
 
 // Fixed renderTemplate function with proper type hints
@@ -608,6 +658,9 @@ function renderTemplate(string $html, array $data): string
             $html = str_replace("{{{$key}}}", htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8'), $html);
         }
     }
+
+    // Safety net: remove any placeholder with no data so raw {{tags}} never print
+    $html = preg_replace('/\{\{[^{}]*\}\}/', '', $html);
 
     return $html;
 }
