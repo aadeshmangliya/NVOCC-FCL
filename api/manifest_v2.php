@@ -655,7 +655,13 @@ function renderTemplate(string $html, array $data): string
     // Replace remaining simple variables after loops to avoid overwriting loop placeholders.
     foreach ($data as $key => $value) {
         if (!is_array($value)) {
-            $html = str_replace("{{{$key}}}", htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8'), $html);
+            // Keys ending in _html hold pre-built HTML (tables, rows, marks) -> insert as-is.
+            // Everything else is user text -> escape it.
+            if (substr($key, -5) === '_html') {
+                $html = str_replace("{{{$key}}}", (string)$value, $html);
+            } else {
+                $html = str_replace("{{{$key}}}", htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8'), $html);
+            }
         }
     }
 
