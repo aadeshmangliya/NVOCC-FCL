@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delivery Order | {{company_display_name}}</title>
+<style>
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    background: #eef2f5;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 30px 20px;
+    color: #111;
+}
+.do-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 30px 35px;
+}
+.do-top {
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 14px;
+    margin-bottom: 14px;
+    position: relative;
+}
+.do-top h2 {
+    margin: 0 0 4px;
+    font-size: 15px;
+    letter-spacing: 1px;
+}
+.do-top p {
+    margin: 2px 0;
+    font-size: 11.5px;
+    font-weight: 600;
+}
+.do-top-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10.5px;
+    margin-top: 10px;
+}
+.do-badges {
+    position: absolute;
+    right: 0;
+    top: -4px;
+    display: flex;
+    gap: 10px;
+}
+.do-badges img { height: 55px; }
+
+.do-title-bar {
+    background: #2a2a2a;
+    color: #fff;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    padding: 8px;
+    margin-bottom: 16px;
+}
+
+.do-head-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 40px;
+    font-size: 11.5px;
+    margin-bottom: 14px;
+}
+.do-head-grid .row { display: flex; margin-bottom: 6px; }
+.do-head-grid .lbl { font-weight: 700; width: 140px; flex-shrink: 0; }
+.do-head-grid .val { font-weight: 500; }
+
+.consignee-block { margin: 16px 0 10px; font-size: 11.5px; }
+.consignee-block .lbl { font-weight: 800; margin-bottom: 4px; }
+.consignee-row { display: flex; margin-bottom: 4px; }
+.consignee-row .k { font-weight: 700; width: 70px; flex-shrink: 0; }
+
+.notify-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    border: 1px solid #000;
+    margin-top: 10px;
+}
+.notify-head {
+    background: #c9c9c9;
+    font-weight: 700;
+    font-size: 11px;
+    padding: 6px 10px;
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+    text-decoration: underline;
+}
+.notify-head:last-child { border-right: none; }
+.notify-val {
+    font-size: 11px;
+    padding: 6px 10px;
+    border-right: 1px solid #000;
+}
+.notify-val:last-child { border-right: none; }
+
+.cargo-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 14px;
+    font-size: 11px;
+}
+.cargo-table th {
+    border: 1px solid #000;
+    background: #fff;
+    text-align: left;
+    padding: 8px 10px;
+    font-weight: 700;
+    font-size: 10.5px;
+}
+.cargo-table td {
+    border: 1px solid #000;
+    padding: 10px 10px;
+    vertical-align: top;
+}
+.cargo-table .meta-line { font-weight: 700; margin-bottom: 2px; }
+
+.remarks-section {
+    margin-top: 16px;
+    font-size: 11.5px;
+}
+.remarks-section .lbl { font-weight: 800; }
+
+.note-section {
+    margin-top: 14px;
+    font-size: 10.5px;
+}
+.note-section .lbl { font-weight: 800; margin-bottom: 4px; }
+.note-section ol { margin: 0; padding-left: 20px; }
+.note-section li { margin-bottom: 3px; }
+
+.do-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 50px;
+    padding-top: 10px;
+    border-top: 1px solid #ccc;
+    font-size: 10px;
+    color: #333;
+}
+.do-footer .left { max-width: 320px; }
+
+.action-bar {
+    background: #f8fafc;
+    padding: 14px;
+    text-align: center;
+    border-top: 1px solid #dee2e6;
+    margin-top: 20px;
+}
+.btn-print {
+    background: #1a365d;
+    color: white;
+    border: none;
+    padding: 8px 32px;
+    font-weight: 700;
+    border-radius: 40px;
+    cursor: pointer;
+}
+.btn-print:hover { background: #2b6cb0; }
+
+@media print {
+    body { background: #fff; padding: 0; }
+    .do-container { border: none; }
+    .btn-print, .action-bar { display: none; }
+}
+@media (max-width: 768px) {
+    .do-head-grid { grid-template-columns: 1fr; }
+    .notify-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="do-container">
+
+    <div class="do-top">
+        {{#if logo_path}}
+        <div class="do-badges"><img src="{{logo_path}}" alt="{{company_display_name}}"></div>
+        {{/if}}
+        <h2>{{company_display_name}}</h2>
+        <p>{{company_address}}</p>
+        <div class="do-top-meta">
+            <span><strong>TEL:</strong> {{company_phone}}</span>
+            <span><strong>EMAIL:</strong> {{company_email}}</span>
+            <span><strong>NATIONAL IDENTITY NO.:</strong> {{company_national_id}}</span>
+        </div>
+    </div>
+
+    <div class="do-title-bar">DELIVERY ORDER</div>
+
+    <div class="do-head-grid">
+        <div>
+            <div class="row"><div class="lbl">To,</div><div class="val">{{do_to}}</div></div>
+            <div class="row"><div class="lbl">VESSEL NAME:</div><div class="val">{{vessel_name}}</div></div>
+            <div class="row"><div class="lbl">VIR NUMBER:</div><div class="val">{{vir_number}}</div></div>
+            <div class="row"><div class="lbl">MBL NUMBER:</div><div class="val">{{tracking_number}}</div></div>
+            <div class="row"><div class="lbl">DESTINATION:</div><div class="val">{{destination}}</div></div>
+            <div class="row"><div class="lbl">IGM NUMBER:</div><div class="val">{{igm_number}}</div></div>
+            <div class="row"><div class="lbl">ISSUED TO:</div><div class="val">{{issued_to}}</div></div>
+        </div>
+        <div>
+            <div class="row"><div class="lbl">DO NUMBER:</div><div class="val">{{do_number}}</div></div>
+            <div class="row"><div class="lbl">ISSUANCE DATE:</div><div class="val">{{issuance_date}}</div></div>
+            <div class="row"><div class="lbl">VALIDITY DATE:</div><div class="val">{{validity_date}}</div></div>
+            <div class="row"><div class="lbl">VOY:</div><div class="val">{{voyage_no}}</div></div>
+            <div class="row"><div class="lbl">HBL NUMBER:</div><div class="val">{{hbl_number}}</div></div>
+            <div class="row"><div class="lbl">MODE OF DELIVERY:</div><div class="val">{{mode_of_delivery}}</div></div>
+            <div class="row"><div class="lbl">DISCHARGE PORT:</div><div class="val">{{pod}}</div></div>
+            <div class="row"><div class="lbl">IGM DATE:</div><div class="val">{{igm_date}}</div></div>
+        </div>
+    </div>
+
+    <div class="consignee-block">
+        <div class="lbl">CONSIGNEE NAME &amp; ADDRESS</div>
+        <div class="consignee-row"><div class="k">Name:</div><div>{{consignee_name}}</div></div>
+        <div class="consignee-row"><div class="k">Address:</div><div>{{consignee_address}}</div></div>
+    </div>
+
+    <div class="notify-grid">
+        <div class="notify-head">NOTIFY PARTY NAME</div>
+        <div class="notify-head">NOTIFY PARTY ADDRESS</div>
+        <div class="notify-val">1. {{notify_name}}</div>
+        <div class="notify-val">{{notify_address}}</div>
+    </div>
+
+    <table class="cargo-table">
+        <thead>
+            <tr>
+                <th style="width:14%;">CONTAINER</th>
+                <th style="width:16%;">EMPTY RETURN</th>
+                <th style="width:12%;">MARKS &amp; NOS</th>
+                <th style="width:10%;">NO. OF PACKAGES</th>
+                <th style="width:34%;">DESCRIPTION</th>
+                <th style="width:14%;">WEIGHT</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{container_rows_html}}
+        </tbody>
+    </table>
+
+    <div class="remarks-section">
+        <div class="lbl">Line Remarks:</div>
+        <div>{{line_remarks}}</div>
+    </div>
+
+    <div class="note-section">
+        <div class="lbl">Note</div>
+        <ol>
+            <li>This letter is to be treated as invalid if any correction/over writing is made.</li>
+            <li>Delivery order is valid, subject to vessel berthing/cargo discharge from said vessel.</li>
+            <li>Delivery order granted subject to endorsements and the Terms &amp; Conditions of Bill of Lading.</li>
+        </ol>
+    </div>
+
+    <div class="do-footer">
+        <div class="left">This is a system generated document and does not require signature and stamp.</div>
+        <div>Printed on: {{printed_on}}</div>
+        <div>Page 1 of 1</div>
+    </div>
+
+    <div class="action-bar">
+        <button class="btn-print" onclick="window.print();">PRINT / EXPORT PDF (Delivery Order)</button>
+    </div>
+</div>
+</body>
+</html>

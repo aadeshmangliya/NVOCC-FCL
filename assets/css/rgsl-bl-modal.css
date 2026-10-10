@@ -1,0 +1,451 @@
+/* Bill of Lading modal styles */
+:root {
+    --rg-teal: #007069;
+    --rg-teal-dark: #005a54;
+    --rg-orange: #ef870c;
+    --rg-orange-dark: #d4760a;
+}
+
+.modal-xl {
+    max-width: 90%;
+    width: 90%;
+    margin: 1.75rem auto;
+}
+
+/* ── Modal sizing ── */
+.modal-header {
+    background: var(--rg-teal);
+    color: #fff;
+    padding: 12px 16px;
+}
+
+.modal-header .btn-close {
+    filter: invert(1) brightness(2);
+}
+
+.modal-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: .3px;
+}
+
+/* ── BL number bar ── */
+.bl-bar {
+    background: rgba(0, 112, 105, .08);
+    border: 1px dashed var(--rg-teal);
+    border-radius: 8px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.bl-bar label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--rg-teal);
+    margin: 0;
+    white-space: nowrap;
+}
+
+.bl-bar input {
+    border: none;
+    background: transparent;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--rg-teal);
+    flex: 1;
+    outline: none;
+    min-width: 150px;
+}
+
+.bl-bar .btn-gen {
+    font-size: 11px;
+    padding: 4px 10px;
+    border: 1px solid var(--rg-teal);
+    color: var(--rg-teal);
+    background: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.bl-bar .btn-gen:hover {
+    background: var(--rg-teal);
+    color: #fff;
+}
+
+/* ── Nav tabs ── */
+.nav-tabs {
+    flex-wrap: wrap;
+}
+
+.nav-tabs .nav-link {
+    font-size: 11px;
+    font-weight: 500;
+    color: #555 !important;
+    padding: 6px 10px;
+    border-radius: 6px 6px 0 0;
+}
+
+.nav-tabs .nav-link.active {
+    color: var(--rg-teal) !important;
+    font-weight: 600;
+}
+
+.nav-tabs .nav-link i {
+    margin-right: 4px;
+}
+
+/* ── Section headers ── */
+.sec-head {
+    background: var(--rg-teal);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 6px;
+    margin: 15px 0 10px;
+    letter-spacing: .3px;
+}
+
+.sec-head i {
+    margin-right: 5px;
+}
+
+/* ── Form labels & controls ── */
+.form-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 3px;
+}
+
+.form-label .req {
+    color: var(--rg-orange);
+    margin-left: 2px;
+}
+
+.form-control,
+.form-select {
+    font-size: 12px;
+    padding: 5px 8px;
+    border-color: #ced4da;
+    border-radius: 6px;
+}
+
+/* ── Package table ── */
+.pkg-table {
+    font-size: 11px;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.pkg-table th {
+    background: #f0f4f4;
+    padding: 6px 6px;
+    font-weight: 600;
+    color: #444;
+    border: 1px solid #dee2e6;
+    white-space: nowrap;
+}
+
+.pkg-table td {
+    padding: 3px 4px;
+    border: 1px solid #dee2e6;
+    vertical-align: middle;
+}
+
+.pkg-table td input,
+.pkg-table td select {
+    border: none;
+    background: transparent;
+    font-size: 11px;
+    width: 100%;
+    padding: 3px 5px;
+    outline: none;
+}
+
+.btn-add-row {
+    font-size: 11px;
+    color: var(--rg-teal);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px 0;
+    font-weight: 500;
+}
+
+.btn-rm {
+    background: none;
+    border: none;
+    color: #d85a30;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+}
+
+/* ── Footer buttons ── */
+.modal-footer {
+    gap: 6px;
+    padding: 10px 16px;
+    flex-wrap: wrap;
+}
+
+.btn-teal {
+    background: var(--rg-teal);
+    color: #fff;
+    border-color: var(--rg-teal);
+    font-size: 12px;
+}
+
+.btn-orange {
+    background: var(--rg-orange);
+    color: #fff;
+    border-color: var(--rg-orange);
+    font-size: 12px;
+}
+
+/* ── Tab pane scroll ── */
+.tab-content {
+    max-height: 60vh;
+    overflow-y: auto;
+    padding: 4px 2px 8px;
+}
+
+/* ========== RESPONSIVE ========== */
+
+@media (max-width: 992px) {
+    .modal-xl {
+        max-width: 95%;
+        width: 95%;
+    }
+
+    .modal-title {
+        font-size: 0.85rem;
+    }
+
+    .nav-tabs .nav-link {
+        font-size: 10px;
+        padding: 5px 8px;
+    }
+
+    .sec-head {
+        font-size: 10px;
+        padding: 4px 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .modal-xl {
+        max-width: 98%;
+        width: 98%;
+        margin: 0.5rem auto;
+    }
+
+    .modal-header {
+        padding: 10px 12px;
+    }
+
+    .modal-title {
+        font-size: 0.8rem;
+    }
+
+    .bl-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .bl-bar label {
+        white-space: normal;
+    }
+
+    .bl-bar input {
+        width: 100%;
+    }
+
+    .nav-tabs {
+        flex-wrap: wrap;
+    }
+
+    .nav-tabs .nav-link {
+        flex: 1 0 auto;
+        text-align: center;
+        font-size: 9px;
+        padding: 4px 6px;
+    }
+
+    .sec-head {
+        font-size: 10px;
+        padding: 4px 8px;
+        margin: 12px 0 8px;
+    }
+
+    .form-control,
+    .form-select {
+        font-size: 11px;
+        padding: 4px 6px;
+    }
+
+    .form-label {
+        font-size: 10px;
+    }
+
+    .pkg-table th,
+    .pkg-table td {
+        padding: 2px 3px;
+        font-size: 10px;
+    }
+
+    .pkg-table td input,
+    .pkg-table td select {
+        font-size: 10px;
+        padding: 2px 3px;
+    }
+
+    .modal-footer {
+        flex-direction: column-reverse;
+    }
+
+    .modal-footer .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .tab-content {
+        max-height: 50vh;
+    }
+}
+
+@media (max-width: 576px) {
+    .modal-dialog {
+        margin: 0.25rem;
+    }
+
+    .modal-header {
+        padding: 8px 10px;
+    }
+
+    .modal-title {
+        font-size: 0.75rem;
+    }
+
+    .bl-bar {
+        gap: 6px;
+        padding: 6px 10px;
+    }
+
+    .bl-bar input {
+        font-size: 11px;
+    }
+
+    .nav-tabs .nav-link {
+        font-size: 8px;
+        padding: 3px 5px;
+    }
+
+    .sec-head {
+        font-size: 9px;
+        padding: 3px 6px;
+    }
+
+    .pkg-table {
+        font-size: 9px;
+    }
+
+    .pkg-table th,
+    .pkg-table td {
+        padding: 2px;
+    }
+
+    .btn-add-row {
+        font-size: 10px;
+    }
+}
+
+/* Cargo accordion matching the BL form theme */
+#cargo-accordion-wrapper .accordion-item {
+    border: 1px solid rgba(0, 112, 105, .08);
+    border-radius: 8px;
+    margin-bottom: 12px;
+    background: #fff;
+    overflow: hidden;
+}
+
+#cargo-accordion-wrapper .accordion-header .accordion-button {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--rg-teal);
+    padding: 10px 14px;
+    background: rgba(0, 112, 105, .02);
+    border: none;
+    gap: 8px;
+}
+
+#cargo-accordion-wrapper .accordion-header .accordion-button:not(.collapsed) {
+    background: var(--rg-teal);
+    color: #fff;
+}
+
+#cargo-accordion-wrapper .accordion-body {
+    background: #fbfdfc;
+    padding: 14px;
+}
+
+#cargo-accordion-wrapper .form-label {
+    font-size: 12px;
+}
+
+/* Readonly container field inside accordion */
+input[name$="[container_no_display]"] {
+    border: none;
+    background: transparent;
+    font-weight: 700;
+    color: var(--rg-teal);
+    padding-left: 0;
+}
+
+/* Small helpers */
+#cargo-accordion-wrapper .accordion-item + .accordion-item {
+    margin-top: 6px;
+}
+
+/* Dropdown Styles */
+.dropdown-menu .submenu {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    margin-top: -5px;
+    min-width: 180px;
+}
+
+.dropdown-menu .submenu.show {
+    display: block;
+}
+
+.dropdown-item.company-submenu {
+    position: relative;
+    cursor: pointer;
+}
+
+.dropdown-item.company-submenu:hover {
+    background-color: #f8f9fa;
+}
+
+.btn-group {
+    margin-right: 5px;
+}
+
+@media (max-width: 768px) {
+    .dropdown-menu .submenu {
+        position: static;
+        left: auto;
+        top: auto;
+        margin-left: 15px;
+        width: calc(100% - 15px);
+        min-width: auto;
+    }
+}

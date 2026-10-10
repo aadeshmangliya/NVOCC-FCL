@@ -1,0 +1,759 @@
+ .hero-section {
+     background: #000;
+     color: white;
+     padding: 100px 0;
+     position: relative;
+     overflow: hidden;
+ }
+
+ .hero-section::before {
+     content: '';
+     position: absolute;
+     top: 0;
+     left: 0;
+     right: 0;
+     bottom: 0;
+     background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.1)" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+     background-size: cover;
+     opacity: 0.3;
+ }
+
+ .hero-content {
+     position: relative;
+     z-index: 2;
+ }
+
+ .tracking-card {
+     background: rgba(255, 255, 255, 0.95);
+     border-radius: 15px;
+     padding: 30px;
+     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+ }
+
+ .service-card {
+     transition: transform 0.3s ease;
+     border: none;
+     border-radius: 10px;
+     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+ }
+
+ .service-card:hover {
+     transform: translateY(-10px);
+ }
+
+ .service-icon {
+     font-size: 3rem;
+     color: #FF883A;
+     margin-bottom: 20px;
+ }
+
+ .about-section {
+     background-color: #f8f9fa;
+     padding: 80px 0;
+ }
+
+ .stats-section {
+      background: #000;
+     color: white;
+     padding: 60px 0;
+ }
+
+ .stat-number {
+     font-size: 2.5rem;
+     font-weight: bold;
+ }
+
+ .footer {
+     background-color: #1a1a2e;
+     color: white;
+     padding: 40px 0 20px;
+ }
+
+ .footer a {
+     color: #ddd;
+     text-decoration: none;
+ }
+
+ .footer a:hover {
+     color: white;
+ }
+
+ .result-card {
+     margin-top: 30px;
+     animation: fadeIn 0.5s ease;
+ }
+
+ @keyframes fadeIn {
+     from {
+         opacity: 0;
+         transform: translateY(20px);
+     }
+
+     to {
+         opacity: 1;
+         transform: translateY(0);
+     }
+ }
+
+ .wpcargo-wrap-details {
+     max-width: 1280px;
+     margin: 30px auto;
+     background: #ffffff;
+     border-radius: 28px;
+     box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.02);
+     overflow: hidden;
+     transition: all 0.2s;
+ }
+
+ .track-header {
+      background: #000;
+     padding: 28px 24px 24px 24px;
+     text-align: center;
+     border-bottom: 1px solid #e9edf2;
+ }
+
+
+ .shipment-number {
+     background: rgba(0, 0, 0, 0.18);
+     display: inline-block;
+     padding: 8px 22px;
+     border-radius: 40px;
+     font-weight: 600;
+     font-size: 1.2rem;
+     letter-spacing: 1px;
+     backdrop-filter: blur(4px);
+     color: white;
+     margin-top: 12px;
+ }
+
+ .status-banner {
+     background: #f8fafc;
+     margin: 0 24px 24px 24px;
+     border-radius: 60px;
+     text-align: center;
+     padding: 18px 20px;
+     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+     border: 1px solid #e2edf2;
+ }
+
+ .shipment-status-label {
+     font-size: 1rem;
+     font-weight: 500;
+     color: #2c5a6e;
+     letter-spacing: 0.5px;
+ }
+
+ .status-value {
+     font-size: 1.8rem;
+     font-weight: 800;
+     background: linear-gradient(120deg, #FF883A, #137F78);
+     background-clip: text;
+     -webkit-background-clip: text;
+     color: transparent;
+     margin-left: 8px;
+     display: inline-block;
+     vertical-align: middle;
+ }
+
+ .main-content-wrapper {
+     display: grid;
+     grid-template-columns: 2fr 1fr;
+     gap: 24px;
+     padding: 24px;
+ }
+
+ .left-column {
+     display: flex;
+     flex-direction: column;
+     gap: 24px;
+ }
+
+ .right-column {
+     display: flex;
+     flex-direction: column;
+     gap: 24px;
+ }
+
+ .section-card {
+     border-radius: 24px;
+     background: #ffffff;
+     border: 1px solid #eef2f8;
+     box-shadow: 0 6px 12px -8px rgba(0, 0, 0, 0.05);
+     transition: 0.1s;
+ }
+
+ .section-header {
+     padding: 18px 24px 8px 24px;
+     border-bottom: 2px solid #eef2f8;
+     font-weight: 700;
+     font-size: 1.1rem;
+     color: #0f3b4f;
+ }
+
+ .info-grid {
+     display: grid;
+     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+     gap: 12px 20px;
+     padding: 22px 24px;
+ }
+
+ .info-item {
+     display: flex;
+     flex-wrap: wrap;
+     align-items: baseline;
+     border-bottom: 1px dashed #e9edf2;
+     padding: 8px 0;
+ }
+
+ .info-label {
+     font-weight: 600;
+     width: 140px;
+     color: #4b6a7c;
+     font-size: 0.85rem;
+     text-transform: uppercase;
+     letter-spacing: 0.3px;
+ }
+
+ .info-value {
+     flex: 1;
+     color: #1a2c3e;
+     font-weight: 500;
+     word-break: break-word;
+ }
+
+ .two-columns {
+     display: flex;
+     flex-wrap: wrap;
+     gap: 24px;
+     padding: 8px 0 12px 0;
+ }
+
+ .col-half {
+     flex: 1;
+     min-width: 220px;
+     background: #fafdff;
+     border-radius: 20px;
+     padding: 12px 18px;
+     border: 1px solid #eef2f8;
+ }
+
+ .col-half .header-title {
+     font-size: 1rem;
+     font-weight: 700;
+     border-left: 4px solid #FF883A;
+     padding-left: 14px;
+     margin-bottom: 18px;
+     color: #1b4d5e;
+ }
+
+ .address-details {
+     line-height: 1.5;
+     padding-left: 12px;
+     color: #2e4758;
+     font-weight: 500;
+ }
+
+ /* QR Panel */
+ .qr-panel {
+     background: #f9fbfd;
+     border: 1px solid #e2edf2;
+     border-radius: 16px;
+     padding: 18px;
+     text-align: center;
+ }
+
+ .qr-panel h6 {
+     margin-bottom: 14px;
+     font-weight: 700;
+     color: #0f3b4f;
+     font-size: 0.95rem;
+ }
+
+ .qr-panel canvas {
+     border: 1px solid #ddd;
+     border-radius: 8px;
+     margin: 0 auto 14px;
+     display: block;
+     background: white;
+ }
+
+ .qr-actions {
+     display: flex;
+     gap: 8px;
+     flex-wrap: wrap;
+     justify-content: center;
+ }
+
+ .qr-actions button,
+ .qr-actions a {
+     padding: 8px 14px;
+     font-size: 0.85rem;
+     border-radius: 6px;
+     border: 1px solid #FF883A;
+     background: #FF883A;
+     color: white;
+     cursor: pointer;
+     text-decoration: none;
+     transition: 0.2s;
+     flex: 1;
+     min-width: 100px;
+ }
+
+ .qr-actions button:hover,
+ .qr-actions a:hover {
+     background: #137F78;
+     border-color: #137F78;
+ }
+
+ /* History Panel */
+ .history-panel {
+     background: #f9fbfd;
+     border: 1px solid #e2edf2;
+     border-radius: 16px;
+     padding: 18px;
+     max-height: 500px;
+     overflow-y: auto;
+ }
+
+ .history-panel h6 {
+     margin-bottom: 14px;
+     font-weight: 700;
+     color: #0f3b4f;
+     font-size: 0.95rem;
+ }
+
+ .history-item {
+     background: white;
+     padding: 12px;
+     margin-bottom: 10px;
+     border-radius: 8px;
+     border-left: 3px solid #FF883A;
+     font-size: 0.9rem;
+ }
+
+ .history-date {
+     font-weight: 600;
+     color: #137F78;
+     margin-bottom: 4px;
+     font-size: 0.9rem;
+ }
+
+ .history-status {
+     display: inline-block;
+     background: #e3f5ec;
+     color: #166534;
+     padding: 3px 10px;
+     border-radius: 12px;
+     font-size: 0.8rem;
+     font-weight: 600;
+     margin-bottom: 6px;
+ }
+
+ .history-location {
+     color: #4b6a7c;
+     margin-bottom: 4px;
+     font-size: 0.85rem;
+ }
+
+ .history-remarks {
+     color: #90a3b0;
+     font-size: 0.8rem;
+     font-style: italic;
+ }
+
+ .history-wrapper {
+     overflow-x: auto;
+     margin: 0;
+     border-radius: 20px;
+ }
+
+ .history-table {
+     width: 100%;
+     border-collapse: collapse;
+     font-size: 0.9rem;
+ }
+
+ .history-table th {
+     background-color: #f1f6fa;
+     padding: 16px 12px;
+     text-align: left;
+     font-weight: 700;
+     color: #1f5468;
+     border-bottom: 2px solid #dce5ec;
+ }
+
+ .history-table td {
+     padding: 14px 12px;
+     border-bottom: 1px solid #eef2f8;
+     vertical-align: top;
+     color: #1e3b48;
+ }
+
+ .history-row:hover {
+     background-color: #fafeff;
+ }
+
+ .status-badge {
+     background: #e3f5ec;
+     color: #166534;
+     font-weight: 600;
+     padding: 4px 12px;
+     border-radius: 40px;
+     display: inline-block;
+     font-size: 0.8rem;
+ }
+
+ .print-footer {
+     text-align: center;
+     padding: 24px;
+     border-top: 1px solid #eef2f8;
+     font-size: 0.75rem;
+     color: #7f8c8d;
+     background: #f9fbfd;
+ }
+
+ .print-button {
+      background: #000;
+     border: none;
+     padding: 10px 24px;
+     border-radius: 20px;
+     font-weight: 600;
+     cursor: pointer;
+     font-family: inherit;
+     color: white;
+     transition: 0.3s;
+     margin-top: 10px;
+     font-size: 0.95rem;
+ }
+
+ .print-button:hover {
+     transform: translateY(-2px);
+     box-shadow: 0 8px 20px rgba(255, 136, 58, 0.3);
+ }
+
+ @media print {
+     * {
+         box-sizing: border-box;
+     }
+
+     html,
+     body {
+         background: white;
+         padding: 0;
+         margin: 0;
+         width: 100%;
+     }
+
+     /* Hide everything except tracking card */
+     nav,
+     .navbar,
+     .hero-section,
+     #services,
+     #about,
+     .stats-section,
+     .footer,
+     section:not(.wpcargo-wrap-details),
+     div.alert {
+         display: none !important;
+     }
+
+     .print-button {
+         display: none !important;
+     }
+
+     .wpcargo-wrap-details {
+         box-shadow: none !important;
+         border-radius: 0 !important;
+         margin: 0 !important;
+         padding: 0 !important;
+         border: none !important;
+         max-width: 100% !important;
+     }
+
+     @page {
+         margin: 10mm;
+         size: A4;
+     }
+
+     .track-header {
+         background: white !important;
+         border-bottom: 2px solid #000 !important;
+         padding: 10px 0 !important;
+         text-align: center !important;
+         margin-bottom: 15px !important;
+     }
+
+     .comp_logo {
+         display: none !important;
+     }
+
+     .comp_logo img {
+         display: none !important;
+     }
+
+     .shipment-number {
+         background: none !important;
+         color: #000 !important;
+         padding: 0 !important;
+         font-size: 1.2rem !important;
+         font-weight: 700 !important;
+         display: block !important;
+     }
+
+     .status-banner {
+         background: white !important;
+         border: none !important;
+         padding: 8px 0 !important;
+         margin: 0 0 15px 0 !important;
+         text-align: center !important;
+     }
+
+     .shipment-status-label {
+         font-size: 0.9rem !important;
+         color: #000 !important;
+     }
+
+     .status-value {
+         background: none !important;
+         -webkit-background-clip: unset !important;
+         color: #000 !important;
+         font-weight: 700 !important;
+         font-size: 1.1rem !important;
+         margin-left: 5px !important;
+     }
+
+     .main-content-wrapper {
+         display: grid !important;
+         grid-template-columns: 2fr 0.8fr !important;
+         gap: 15px !important;
+         padding: 0 !important;
+     }
+
+     .left-column {
+         display: block !important;
+         page-break-inside: avoid !important;
+     }
+
+     .right-column {
+         display: block !important;
+         page-break-inside: avoid !important;
+     }
+
+     /* Hide history and parties panels */
+     .history-panel {
+         display: none !important;
+     }
+
+     .section-card:first-child {
+         display: none !important;
+     }
+
+     /* Show only shipment details */
+     .section-card {
+         border: 1px solid #999 !important;
+         margin: 0 0 10px 0 !important;
+         page-break-inside: avoid !important;
+         background: white !important;
+         padding: 0 !important;
+     }
+
+     .section-header {
+         background: #f5f5f5 !important;
+         border-bottom: 1px solid #999 !important;
+         padding: 8px 12px !important;
+         font-weight: 700 !important;
+         font-size: 0.95rem !important;
+         margin: 0 !important;
+     }
+
+     .info-grid {
+         display: grid !important;
+         grid-template-columns: repeat(2, 1fr) !important;
+         gap: 0 !important;
+         padding: 0 !important;
+     }
+
+     .info-item {
+         display: flex !important;
+         flex-wrap: wrap !important;
+         border: 1px solid #eee !important;
+         padding: 6px 10px !important;
+         align-items: baseline !important;
+         page-break-inside: avoid !important;
+         font-size: 0.85rem !important;
+     }
+
+     .info-label {
+         font-weight: 600 !important;
+         width: 100px !important;
+         flex-shrink: 0 !important;
+         color: #333 !important;
+     }
+
+     .info-value {
+         flex: 1 !important;
+         word-break: break-word !important;
+         color: #000 !important;
+     }
+
+     /* Hide parties section */
+     .two-columns {
+         display: none !important;
+     }
+
+     /* QR Code - small and functional */
+     .qr-panel {
+         border: 1px solid #999 !important;
+         padding: 12px !important;
+         background: white !important;
+         page-break-inside: avoid !important;
+         text-align: center !important;
+     }
+
+     .qr-panel h6 {
+         font-weight: 700 !important;
+         margin: 0 0 10px 0 !important;
+         font-size: 0.85rem !important;
+     }
+
+     .qr-panel canvas {
+         border: 1px solid #999 !important;
+         max-width: 150px !important;
+         width: 150px !important;
+         height: 150px !important;
+         margin: 0 auto !important;
+     }
+
+     .qr-actions {
+         display: none !important;
+     }
+
+     .tracking-link-input {
+         display: none !important;
+     }
+
+     .print-footer {
+         border-top: 1px solid #999 !important;
+         padding: 10px 0 !important;
+         text-align: center !important;
+         font-size: 0.75rem !important;
+         margin-top: 10px !important;
+         page-break-inside: avoid !important;
+     }
+ }
+
+ @media (max-width: 992px) {
+     .main-content-wrapper {
+         grid-template-columns: 1fr;
+     }
+
+     .info-grid {
+         grid-template-columns: 1fr;
+     }
+ }
+
+ /* ========== ADDITIONAL RESPONSIVE FIXES FOR TRACKING ========== */
+
+ @media (max-width: 768px) {
+     .hero-section {
+         padding: 60px 0;
+     }
+
+     .hero-section h1 {
+         font-size: 1.8rem;
+     }
+
+     .hero-section p {
+         font-size: 0.9rem;
+     }
+
+     .tracking-card {
+         padding: 20px;
+     }
+
+     .service-card {
+         margin-bottom: 20px;
+     }
+
+     .service-icon {
+         font-size: 2rem;
+     }
+
+     .about-section {
+         padding: 50px 0;
+     }
+
+     .stats-section {
+         padding: 40px 0;
+     }
+
+     .stat-number {
+         font-size: 2rem;
+     }
+
+     .footer {
+         padding: 30px 0 15px;
+     }
+ }
+
+ @media (max-width: 576px) {
+     .hero-section {
+         padding: 40px 0;
+     }
+
+     .hero-section h1 {
+         font-size: 1.5rem;
+     }
+
+     .tracking-card {
+         padding: 15px;
+     }
+
+     .input-group {
+         flex-direction: column;
+     }
+
+     .input-group .form-control-lg,
+     .input-group .btn-lg {
+         width: 100%;
+         border-radius: 6px;
+         margin-bottom: 8px;
+     }
+
+     .input-group .btn-lg {
+         margin-bottom: 0;
+     }
+
+     .service-card {
+         margin-bottom: 15px;
+     }
+
+     .service-icon {
+         font-size: 1.8rem;
+         margin-bottom: 15px;
+     }
+
+     .service-card h5 {
+         font-size: 1rem;
+     }
+
+     .about-section h2 {
+         font-size: 1.3rem;
+     }
+
+     .stats-section h3 {
+         font-size: 1.2rem;
+     }
+
+     .stat-number {
+         font-size: 1.8rem;
+     }
+
+     .footer {
+         text-align: center;
+     }
+
+     .footer .row>div {
+         margin-bottom: 20px;
+     }
+ }

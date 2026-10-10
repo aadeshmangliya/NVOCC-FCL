@@ -1,0 +1,25 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /website_873610e6/api/
+    
+    # Allow direct file access
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ - [L]
+    
+    # Allow direct directory access
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+    
+    # Route all other requests to index.php with PATH_INFO
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php/$1 [L,QSA]
+</IfModule>
+
+# If mod_rewrite is not available, use this fallback
+<IfModule !mod_rewrite.c>
+    FallbackResource /website_873610e6/api/index.php
+</IfModule>
+
+Options -Indexes
+AddDefaultCharset UTF-8

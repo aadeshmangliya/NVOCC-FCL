@@ -1,0 +1,89 @@
+/* Pages CSS - Tracking, Companies, Reports */
+
+/* Tracking Page */
+.companies-dropdown .dropdown-menu {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.company-item:hover {
+    background-color: #f8f9fa;
+}
+
+.document-link {
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.document-link:hover {
+    background-color: #e9ecef;
+    transform: translateX(5px);
+}
+
+#company-documents-container {
+    margin-top: 20px;
+}
+
+/* Companies Page */
+.company-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.company-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.color-preview {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    display: inline-block;
+    margin-right: 5px;
+    border: 1px solid #ddd;
+}
+
+.company-status-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+/* Ensure invoice action dropdowns are not clipped by table cells */
+.invoice-list-action-group,
+.invoice-list-action-group .btn-group {
+    overflow: visible !important;
+    position: relative;
+}
+.invoice-list-action-group .dropdown-menu {
+    z-index: 3000; /* above modals/backdrops */
+}
+
+/* Make the invoices table fill the viewport and keep header visible */
+.container-fluid.py-3 .card {
+    height: calc(100vh - 140px); /* adjust offset if your header/footer size changes */
+    display: flex;
+    flex-direction: column;
+}
+.container-fluid.py-3 .card-body {
+    flex: 1 1 auto;
+    padding: 0.75rem;
+    overflow: hidden;
+}
+.container-fluid.py-3 .table-responsive {
+    height: 100%;
+    overflow: auto;
+}
+#invoiceTable {
+    margin-bottom: 0;
+}
+#invoiceTable thead th {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 5;
+}
+

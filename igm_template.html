@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IGM | {{company_display_name}}</title>
+<style>
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    background: #eef2f5;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 30px 20px;
+    color: #111;
+    font-size: 13px;
+}
+.igm-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 28px 34px;
+}
+.igm-top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #444;
+    margin-bottom: 4px;
+}
+.igm-system-title {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 18px;
+}
+
+.section-box {
+    border: 1px solid #333;
+    border-radius: 4px;
+    padding: 14px 18px;
+    margin-bottom: 18px;
+    position: relative;
+}
+.section-label {
+    position: absolute;
+    top: -11px;
+    left: 14px;
+    background: #fff;
+    padding: 0 8px;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #333;
+}
+.ref-id {
+    font-size: 17px;
+    font-weight: 800;
+    margin-bottom: 14px;
+    text-decoration: underline;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 30px;
+}
+.info-row { display: flex; margin-bottom: 6px; font-size: 12.5px; }
+.info-row .k { font-weight: 700; width: 190px; flex-shrink: 0; }
+.info-row .v { flex: 1; }
+
+.index-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 40px;
+}
+.index-row { display: flex; margin-bottom: 6px; font-size: 12.5px; }
+.index-row .k { font-weight: 700; width: 160px; flex-shrink: 0; }
+.index-row .v { flex: 1; }
+
+.item-table, .container-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin-top: 6px;
+}
+.item-table th, .container-table th {
+    text-align: left;
+    font-weight: 700;
+    padding: 6px 10px 6px 0;
+    border-bottom: 1px solid #333;
+}
+.item-table td, .container-table td {
+    padding: 8px 10px 8px 0;
+    border-bottom: 1px solid #ddd;
+    vertical-align: top;
+}
+
+.igm-footer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: #555;
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+}
+
+.action-bar {
+    background: #f8fafc;
+    padding: 14px;
+    text-align: center;
+    border-top: 1px solid #dee2e6;
+    margin-top: 20px;
+}
+.btn-print {
+    background: #1a365d;
+    color: white;
+    border: none;
+    padding: 8px 32px;
+    font-weight: 700;
+    border-radius: 40px;
+    cursor: pointer;
+}
+.btn-print:hover { background: #2b6cb0; }
+
+@media print {
+    body { background: #fff; padding: 0; }
+    .igm-container { border: none; }
+    .btn-print, .action-bar { display: none; }
+}
+@media (max-width: 768px) {
+    .info-grid, .index-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="igm-container">
+
+    <div class="igm-top">
+        <span>{{printed_on}}</span>
+        <span></span>
+    </div>
+    <div class="igm-system-title">One-Customs (Paperless Goods Declaration Processing System)</div>
+
+    <div class="section-box">
+        <div class="section-label">Vessel Information</div>
+        <div class="ref-id">{{vir_number}}</div>
+        <div class="info-grid">
+            <div>
+                <div class="info-row"><div class="k">Exp. Date Of Arrival</div><div class="v">{{exp_date_of_arrival}}</div></div>
+                <div class="info-row"><div class="k">Exp. Departure Date :</div><div class="v">{{exp_departure_date}}</div></div>
+                <div class="info-row"><div class="k">Berthed At:</div><div class="v">{{berthed_at}}</div></div>
+                <div class="info-row"><div class="k">Vessel Name:</div><div class="v">{{vessel_name}}</div></div>
+                <div class="info-row"><div class="k">Vessel Status:</div><div class="v">{{vessel_status}}</div></div>
+                <div class="info-row"><div class="k">VIR Confirmation Date:</div><div class="v">{{vir_confirmation_date}}</div></div>
+            </div>
+            <div>
+                <div class="info-row"><div class="k">Exp. Time Of Arrival:</div><div class="v">{{exp_time_of_arrival}}</div></div>
+                <div class="info-row"><div class="k">Exp. Departure Time:</div><div class="v">{{exp_departure_time}}</div></div>
+                <div class="info-row"><div class="k">Last Port Of Call:</div><div class="v">{{last_port_of_call}}</div></div>
+                <div class="info-row"><div class="k">Berthing Date:</div><div class="v">{{berthing_date}}</div></div>
+                <div class="info-row"><div class="k">Sailing Date:</div><div class="v">{{sailing_date}}</div></div>
+                <div class="info-row"><div class="k">VIR Launched By:</div><div class="v">{{vir_launched_by}}</div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-box">
+        <div class="section-label">Index Information</div>
+        <div class="ref-id">{{vir_number}}</div>
+        <div class="index-grid">
+            <div>
+                <div class="index-row"><div class="k">BL No</div><div class="v">{{tracking_number}}</div></div>
+                <div class="index-row"><div class="k">Consignee Name :</div><div class="v">{{consignee_name}}</div></div>
+                <div class="index-row"><div class="k">Consignee Country Name</div><div class="v">{{consignee_country}}</div></div>
+                <div class="index-row"><div class="k">Consignor Name</div><div class="v">{{shipper_name}}</div></div>
+                <div class="index-row"><div class="k">Consignor Country</div><div class="v">{{shipper_country}}</div></div>
+                <div class="index-row"><div class="k">Gross Weight</div><div class="v">{{gross_weight}}</div></div>
+                <div class="index-row"><div class="k">Delivery Mode</div><div class="v">{{delivery_mode}}</div></div>
+                <div class="index-row"><div class="k">Cargo Type</div><div class="v">{{cargo_type}}</div></div>
+                <div class="index-row"><div class="k">Marks And Number :</div><div class="v">{{marks_numbers}}</div></div>
+                <div class="index-row"><div class="k">Status :</div><div class="v">{{vessel_status}}</div></div>
+            </div>
+            <div>
+                <div class="index-row"><div class="k">Type Of BL</div><div class="v">{{bl_type}}</div></div>
+                <div class="index-row"><div class="k">Consignee Address</div><div class="v">{{consignee_address}}</div></div>
+                <div class="index-row"><div class="k">Consignee City Name :</div><div class="v">{{consignee_city}}</div></div>
+                <div class="index-row"><div class="k">Consignor Address :</div><div class="v">{{shipper_address}}</div></div>
+                <div class="index-row"><div class="k">Consignor Port :</div><div class="v">{{shipper_port}}</div></div>
+                <div class="index-row"><div class="k">Net Weight :</div><div class="v">{{net_weight}}</div></div>
+                <div class="index-row"><div class="k">Stuffing Status :</div><div class="v">{{stuffing_status}}</div></div>
+                <div class="index-row"><div class="k">Via Port :</div><div class="v">{{via_port}}</div></div>
+                <div class="index-row"><div class="k">Plot Number:</div><div class="v">{{plot_number}}</div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-box">
+        <div class="section-label">Item Information</div>
+        <table class="item-table">
+            <thead>
+                <tr>
+                    <th style="width:12%;">HS Code</th>
+                    <th style="width:50%;">Description</th>
+                    <th style="width:16%;">Packing Mode</th>
+                    <th style="width:11%;">Quantity</th>
+                    <th style="width:11%;">No Of Packages</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{item_rows_html}}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section-box">
+        <div class="section-label">Container Information</div>
+        <table class="container-table">
+            <thead>
+                <tr>
+                    <th style="width:22%;">Container Number</th>
+                    <th style="width:18%;">Seal Number</th>
+                    <th style="width:14%;">ISO Code</th>
+                    <th style="width:18%;">Gross Weight</th>
+                    <th style="width:18%;">Net Weight</th>
+                    <th style="width:10%;">SOC</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{igm_container_rows_html}}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="igm-footer">
+        <span>IGM Number: {{igm_number}} | IGM Date: {{igm_date}}</span>
+        <span>Generated via {{company_display_name}} — {{printed_on}}</span>
+    </div>
+
+    <div class="action-bar">
+        <button class="btn-print" onclick="window.print();">PRINT / EXPORT PDF (IGM)</button>
+    </div>
+</div>
+</body>
+</html>

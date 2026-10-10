@@ -1,0 +1,138 @@
+/* Fix for dropdown menus inside tables */
+.table-responsive {
+    overflow-x: visible;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+}
+
+.table {
+    overflow: visible;
+    width: 100%;
+}
+
+.table td {
+    vertical-align: middle;
+    position: relative;
+}
+
+.btn-group {
+    position: relative;
+    flex-wrap: wrap;
+    gap: 2px;
+}
+
+.dropdown-menu {
+    z-index: 1060;
+    max-width: 280px;
+    position: absolute;
+}
+
+.table td .dropdown {
+    position: relative;
+    z-index: 1;
+}
+
+.table td .dropdown-menu {
+    position: absolute;
+    top: calc(100% + 0.25rem);
+    left: 0;
+    transform: none;
+    min-width: 180px;
+    white-space: nowrap;
+}
+
+.btn-group-sm>.btn,
+.btn-sm {
+    padding: 0.2rem 0.4rem;
+    font-size: 0.7rem;
+}
+
+.btn-group .btn {
+    border-radius: 4px !important;
+    margin: 0 1px;
+}
+
+/* Fix for submenu positioning */
+.dropdown-menu .submenu {
+    position: absolute !important;
+    right: 100% !important;
+    left: auto !important;
+    top: 0 !important;
+    margin-right: 0;
+    min-width: 180px;
+    z-index: 1060;
+}
+
+.company-submenu {
+    position: relative;
+}
+
+/* Ensure dropdowns are visible */
+#shipments-container .dropdown-menu {
+    z-index: 9999;
+}
+
+/* ========== RESPONSIVE ========== */
+
+@media (max-width: 992px) {
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .table {
+        min-width: 700px;
+    }
+
+    .btn-group .btn {
+        font-size: 0.65rem;
+        padding: 0.15rem 0.35rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .btn-group {
+        flex-wrap: wrap;
+    }
+
+    .btn-group .btn {
+        margin: 0.15rem;
+    }
+
+    .dropdown-menu .submenu {
+        position: static !important;
+        left: auto !important;
+        top: auto !important;
+        margin-left: 15px;
+        margin-top: 5px;
+        width: calc(100% - 15px);
+        min-width: auto;
+    }
+
+    .table td {
+        min-width: 100px;
+    }
+
+    .table td:first-child {
+        min-width: 80px;
+    }
+
+    .dropdown-menu {
+        max-width: 250px;
+        /* Removed problematic inset property - let Bootstrap/JS handle positioning */
+    }
+}
+
+@media (max-width: 480px) {
+    .table {
+        min-width: 600px;
+    }
+
+    .btn-group .btn {
+        padding: 0.1rem 0.3rem;
+        font-size: 0.6rem;
+    }
+
+    .dropdown-menu {
+        max-width: 220px;
+    }
+}

@@ -1,0 +1,431 @@
+/* Email-based Tracking & OTP Verification Styles */
+
+#tracking-alerts {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    width: 400px;
+    max-width: 90%;
+    z-index: 1050;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+#tracking-alerts .alert {
+    margin-bottom: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(420px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.email-tracking-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+#email-tracking-section {
+    background: white;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+#otp-verification-section {
+    background: white;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    display: none;
+}
+
+.email-form-group {
+    margin-bottom: 20px;
+}
+
+.email-form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.email-form-group input[type="email"],
+.email-form-group input[type="text"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.email-form-group input[type="email"]:focus,
+.email-form-group input[type="text"]:focus {
+    border-color: #FF883A;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 136, 58, 0.1);
+}
+
+.email-tracking-form button,
+#otp-verification-form button {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    background: #000;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.email-tracking-form button:hover:not(:disabled),
+#otp-verification-form button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(255, 136, 58, 0.3);
+}
+
+.email-tracking-form button:disabled,
+#otp-verification-form button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.otp-section {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.otp-section h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.otp-section p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.otp-inputs-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.otp-input {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.otp-input:focus {
+    border-color: #FF883A;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 136, 58, 0.1);
+}
+
+.otp-input::placeholder {
+    color: #ccc;
+}
+
+    .hidden {
+        display: none !important;
+    }
+
+.session-info strong {
+    color: #137F78;
+}
+
+.session-timer {
+    font-weight: 700;
+    color: #FF883A;
+}
+
+.shipments-list {
+    display: grid;
+    gap: 20px;
+}
+
+.shipment-card {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.shipment-card:hover {
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+.shipment-header {
+     background: #000;
+    color: white;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.shipment-number {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.shipment-status {
+    display: flex;
+    align-items: center;
+}
+
+.shipment-body {
+    padding: 20px;
+}
+
+.shipment-body p {
+    margin: 8px 0;
+    color: #333;
+}
+
+.shipment-body strong {
+    color: #137F78;
+}
+
+.shipment-footer {
+    padding: 0 20px 20px 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.view-details-btn,
+.new-search-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.view-details-btn {
+     background: #000;
+    color: white;
+    flex: 1;
+}
+
+.view-details-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 136, 58, 0.3);
+}
+
+.new-search-btn {
+    background: #f0f0f0;
+    color: #333;
+    flex: 1;
+    border: 1px solid #e0e0e0;
+}
+
+.new-search-btn:hover {
+    background: #e0e0e0;
+}
+
+.badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.badge-pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.badge-booking_confirmed {
+    background: #cfe2ff;
+    color: #084298;
+}
+
+.badge-cargo_received {
+    background: #cfe2ff;
+    color: #084298;
+}
+
+.badge-in_transit {
+    background: #cff4fc;
+    color: #055160;
+}
+
+.badge-customs_clearance {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.badge-port_of_discharge {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.badge-out_for_delivery {
+    background: #d1e7dd;
+    color: #0f5132;
+}
+
+.badge-delivered {
+    background: #d1e7dd;
+    color: #0f5132;
+}
+
+.badge-cancelled {
+    background: #f8d7da;
+    color: #842029;
+}
+
+.badge-on_hold {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.badge-exception {
+    background: #f8d7da;
+    color: #842029;
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #FF883A;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #tracking-alerts {
+        width: 100%;
+        right: 0;
+        left: 0;
+        max-width: 100%;
+    }
+
+    #email-tracking-section,
+    #otp-verification-section {
+        padding: 20px;
+    }
+
+    .otp-inputs-wrapper {
+        gap: 8px;
+    }
+
+    .otp-input {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+
+    .shipment-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .shipment-footer {
+        flex-direction: column;
+    }
+
+    .shipment-body {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 576px) {
+    .email-tracking-container {
+        margin: 20px auto;
+        padding: 10px;
+    }
+
+    #email-tracking-section,
+    #otp-verification-section {
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    .otp-section h3 {
+        font-size: 20px;
+    }
+
+    .otp-inputs-wrapper {
+        gap: 6px;
+    }
+
+    .otp-input {
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
+    }
+
+    .shipment-card {
+        border-radius: 8px;
+    }
+
+    .shipment-header {
+        padding: 12px;
+    }
+
+    .shipment-body {
+        padding: 15px;
+    }
+
+    .shipment-footer {
+        padding: 0 15px 15px 15px;
+    }
+}
+
+/* Print Styles */
+@media print {
+    #tracking-alerts,
+    .email-tracking-container,
+    #email-tracking-section,
+    #otp-verification-section,
+    .new-search-btn {
+        display: none !important;
+    }
+}

@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="api-bearer-token" content="v9K3hY2fQ8sV7mR4tP1xL6aZ0bN5cUq-Wy_e3D2F8G7H1J4K9L0M2">
+        <title>Email Tracking</title>
+        <!-- Bootstrap 5 + Icons (lightweight, used only for responsive grid & utilities) -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+        <style>
+    :root {
+      --orange: #ff8f3c;
+      --teal: #137f78;
+      --dark: #081426;
+      --light: #f5f8fd;
+      --card: #ffffff;
+      --border: #d9e2ec;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f8fd; color: #102a43; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+
+
+    /* hero / cards */
+    .hero-section { min-height: 500px; padding: 52px 32px 32px; background: radial-gradient(circle at top left, rgba(255,177,71,0.18), transparent 26%), linear-gradient(135deg, #ff8f3c, #1f9b8c 65%, #081426 100%); color: white; }
+    .hero-inner { max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 32px; align-items: center; }
+    .hero-copy h1 { margin: 0 0 20px; font-size: clamp(2.8rem, 4vw, 4.6rem); line-height: 1.02; letter-spacing: -0.03em; }
+    .hero-copy p { margin: 0; max-width: 560px; font-size: 1.05rem; line-height: 1.85; color: rgba(255,255,255,0.9); }
+    .hero-card { background: rgba(255,255,255,0.98); border-radius: 30px; padding: 32px; border: 1px solid rgba(255,255,255,0.7); box-shadow: 0 32px 70px rgba(7,18,32,0.16); }
+    .hero-card h3 { margin: 0 0 8px; font-size: 1.55rem; color: var(--dark); }
+    .hero-card p { margin: 0 0 22px; color: #5b758e; line-height: 1.8; }
+
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; margin-bottom: 10px; font-weight: 700; color: #102a43; }
+    .form-group input { width: 100%; border: 1px solid #d9e2ec; border-radius: 18px; padding: 16px 18px; font-size: 0.98rem; background: #f8fafc; color: #102a43; }
+    .form-group small { display: block; margin-top: 8px; color: #64748b; }
+    .btn-primary-custom { width: 100%; border: none; border-radius: 18px; background: linear-gradient(135deg, var(--orange), var(--teal)); color: white; padding: 15px 0; font-weight: 700; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .btn-primary-custom:hover { transform: translateY(-1px); box-shadow: 0 18px 30px rgba(255,136,58,0.18); }
+
+    .alert { border-radius: 18px; padding: 16px 18px; margin-bottom: 18px; font-size: 0.95rem; }
+    .alert-success { background: #e6fffa; color: #0f5132; border: 1px solid #b8f1e8; }
+    .alert-danger { background: #ffe4e6; color: #881337; border: 1px solid #ffc5d2; }
+    .alert-warning { background: #fff7d6; color: #66532b; border: 1px solid #ffe6a5; }
+    .hidden { display: none !important; }
+
+    .tracking-results { max-width: 1240px; margin: 0 auto; padding: 22px 32px 0; }
+    .section-title { font-size: 1.4rem; font-weight: 700; color: var(--dark); margin-bottom: 20px; }
+    .shipment-list { display: grid; gap: 18px; }
+
+    .shipment-card { background: white; border: 1px solid #e6edf5; border-radius: 24px; overflow: hidden; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .shipment-card:hover { transform: translateY(-2px); box-shadow: 0 24px 40px rgba(15,35,65,0.08); }
+    .shipment-header { display: flex; justify-content: space-between; align-items: center; padding: 22px 24px; background: linear-gradient(135deg, rgba(255,136,58,0.15), rgba(19,127,120,0.12)); gap: 12px; flex-wrap: wrap; }
+    .shipment-number { font-weight: 700; font-size: 1.05rem; color: var(--dark); }
+    .badge-custom { border-radius: 999px; padding: 8px 16px; font-size: 0.82rem; font-weight: 700; color: #0f5132; background: rgba(19,127,120,0.12); }
+    .shipment-body { padding: 22px 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 16px; color: #334e68; }
+    .shipment-body p { margin: 0; }
+    .shipment-footer { display: flex; justify-content: flex-end; padding: 0 24px 24px; }
+    .view-details-btn { border: none; border-radius: 16px; padding: 14px 22px; background: linear-gradient(135deg, var(--orange), var(--teal)); color: white; font-weight: 700; cursor: pointer; }
+
+    .details-panel { max-width: 1240px; margin: 28px auto 40px; border-radius: 28px; overflow: hidden; box-shadow: 0 18px 50px rgba(15,35,65,0.08); }
+    .details-header { background: linear-gradient(135deg, var(--orange), var(--teal)); padding: 24px; color: white; text-align: center; }
+    .details-header .shipment-number { display: inline-flex; margin-top: 14px; background: rgba(255,255,255,0.18); color: white; padding: 10px 22px; border-radius: 999px; font-weight: 700; }
+    .status-banner { display: inline-flex; gap: 10px; align-items: center; margin: 18px auto 0; padding: 16px 20px; border-radius: 999px; background: #eff8f7; border: 1px solid #dee7ef; color: #1b4d5e; }
+    .status-value { font-weight: 800; background: linear-gradient(120deg, var(--orange), var(--teal)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .detail-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; padding: 24px; background: white; border: 1px solid #e6edf5; border-top: none; }
+    .card-block { background: white; border-radius: 24px; border: 1px solid #eef2f7; }
+    .card-block .section-title { padding: 20px 24px 14px; border-bottom: 1px solid #eef2f7; font-weight: 700; color: var(--dark); }
+    .info-grid { display: grid; gap: 12px 20px; padding: 22px 24px; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
+    .info-row { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; border-bottom: 1px dashed #e9edf2; padding-bottom: 10px; flex-wrap: wrap; }
+    .info-label { min-width: 120px; font-weight: 700; color: #4b6a7c; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.3px; }
+    .info-value { color: #102a43; font-weight: 600; }
+    .history-panel { background: #f9fbfd; border: 1px solid #e2edf2; border-radius: 20px; padding: 20px; max-height: 520px; overflow-y: auto; }
+    .history-item { background: white; border-radius: 14px; padding: 16px; margin-bottom: 14px; border-left: 4px solid var(--orange); }
+    .history-date { font-weight: 700; color: var(--teal); margin-bottom: 8px; }
+    .history-meta, .history-remarks { color: #344e68; margin-bottom: 6px; }
+    .print-button { margin: 16px 24px 0; width: calc(100% - 48px); border: none; border-radius: 24px; padding: 14px 0; background: linear-gradient(135deg, var(--orange), var(--teal)); color: white; font-weight: 700; cursor: pointer; }
+
+    .section { padding: 36px 32px; }
+    .section-heading { font-size: 1.75rem; font-weight: 700; margin-bottom: 24px; text-align: center; color: var(--dark); }
+    .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; max-width: 1240px; margin: 0 auto; }
+    .stat-card { background: white; border-radius: 22px; padding: 24px; text-align: center; box-shadow: 0 18px 40px rgba(15,35,65,0.08); }
+    .stat-number { font-size: 2.5rem; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+
+
+    /* OTP inputs */
+    #otp-inputs input { width: 56px; height: 56px; border-radius: 16px; border: 1px solid #d9e2ec; text-align: center; font-size: 1.3rem; font-weight: 700; background: #f8fafc; }
+
+    /* --- PRINT STYLES: only #mainTrackingCard --- */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      body, body * {
+        background: transparent !important;
+        box-shadow: none !important;
+        border-color: #ccc !important;
+      }
+      #mainTrackingCard,
+      #mainTrackingCard * {
+        visibility: visible !important;
+        overflow: visible !important;
+        max-height: none !important;
+        color: #000 !important;
+        background: #fff !important;
+      }
+      #mainTrackingCard {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 20px;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+        background: #fff !important;
+      }
+      #mainTrackingCard .details-header {
+        background: #f2a365 !important;
+        color: #000 !important;
+        border-bottom: 2px solid #ccc;
+      }
+      #mainTrackingCard .details-header .shipment-number {
+        background: rgba(0,0,0,0.08) !important;
+        color: #000 !important;
+      }
+      #mainTrackingCard .status-banner {
+        border: 1px solid #aaa;
+        background: #f9f9f9 !important;
+        color: #000 !important;
+      }
+      #mainTrackingCard .status-value {
+        background: none !important;
+        -webkit-background-clip: unset !important;
+        background-clip: unset !important;
+        color: #000 !important;
+        font-weight: 700;
+      }
+      #mainTrackingCard .detail-grid {
+        display: grid !important;
+        grid-template-columns: 2fr 1fr !important;
+        gap: 20px;
+        border: 1px solid #ccc;
+        background: #fff !important;
+      }
+      #mainTrackingCard .card-block {
+        border: 1px solid #ccc !important;
+        background: #fff !important;
+        border-radius: 8px;
+      }
+      #mainTrackingCard .card-block .section-title {
+        border-bottom: 1px solid #ccc !important;
+        color: #000 !important;
+      }
+      #mainTrackingCard .info-row {
+        border-bottom: 1px dashed #ccc !important;
+      }
+      #mainTrackingCard .history-panel {
+        border: 1px solid #ccc !important;
+        background: #fafafa !important;
+        max-height: none !important;
+        overflow: visible !important;
+      }
+      #mainTrackingCard .history-item {
+        background: #fff !important;
+        border-left: 4px solid #f2a365 !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      #mainTrackingCard .print-button {
+        display: none !important;
+      }
+      /* Hide any alerts or extra elements inside the card */
+      #mainTrackingCard .alert,
+      #mainTrackingCard .btn-primary-custom,
+      #mainTrackingCard .view-details-btn {
+        display: none !important;
+      }
+      /* Ensure grid columns don't break */
+      .detail-grid {
+        display: grid !important;
+      }
+      .history-item {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      /* avoid orphan lines */
+      .shipment-number, .status-banner, .info-row, .history-item {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+    }
+
+    @media (max-width: 1024px) { 
+      .hero-inner { grid-template-columns: 1fr; } 
+      .detail-grid { grid-template-columns: 1fr; } 
+      .hero-section { padding: 48px 24px 32px; } 
+      .print-button { width: 100%; margin: 16px 0 0; }
+    }
+    @media (max-width: 768px) { 
+      .hero-section { padding: 42px 20px 28px; } 
+      .hero-card { padding: 24px; } 
+      .card-block .section-title { padding: 16px 20px 12px; } 
+      .info-grid { padding: 18px 20px; } 
+      .details-panel { margin: 20px 12px; }
+      .detail-grid { padding: 16px; }
+    }
+    @media (max-width: 576px) { 
+      .hero-copy h1 { font-size: 2.25rem; } 
+      .hero-card { border-radius: 24px; } 
+      #otp-inputs input { width: 44px; height: 44px; }
+      .shipment-header { flex-direction: column; align-items: flex-start; }
+    }
+        </style>
+    </head>
+    <body>
+        <main>
+            <section id="home" class="hero-section">
+                <div class="hero-inner container">
+                    <div class="hero-copy">
+                        <h1>Fast & Reliable Shipment Tracking</h1>
+                        <p>Enter your email, verify with OTP, and view all shipments linked to your account. Select a shipment to instantly see full details and history.</p>
+                    </div>
+                    <div class="hero-card" id="email-form-card">
+                        <h3>Email Shipment Tracking</h3>
+                        <p>Enter your email to receive a verification code and view your shipments.</p>
+                        <div id="tracking-alerts"></div>
+                        <div id="email-tracking-section">
+                            <form id="email-tracking-form">
+                                <div class="form-group">
+                                    <label for="email-input">Your Email</label>
+                                    <input
+                                        id="email-input"
+                                        type="email"
+                                        placeholder="your@email.com"
+                                        required
+                                    >
+                                    <small>We will send a one-time verification code.</small>
+                                </div>
+                                <button class="btn-primary-custom" type="submit">Send Verification Code</button>
+                            </form>
+                        </div>
+                        <div id="otp-verification-section" class="hidden">
+                            <div class="form-group">
+                                <h3 style="margin-bottom:12px;">Verify Your Email</h3>
+                                <p style="margin:0 0 16px;color:#475569;">Enter the 6-digit verification code sent to your email.</p>
+                                <div id="session-info" style="font-size:.95rem;color:#0f5132;margin-bottom:16px;">Session expires in:
+                                    <strong id="session-timer">20:00</strong>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Enter OTP</label>
+                                <div id="otp-inputs" style="display:flex;gap:10px;flex-wrap:wrap;"></div>
+                                <small>Enter the 6-digit code sent to your inbox.</small>
+                            </div>
+                            <button class="btn-primary-custom" id="verify-otp-button" type="button">Verify OTP</button>
+                            <button
+                                class="btn-primary-custom"
+                                id="resend-otp-button"
+                                type="button"
+                                style="margin-top:12px;background:#e2f8f3;color:#0f5132;"
+                            >Resend OTP</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section id="shipments" class="tracking-results hidden">
+                <div class="section-title">Your Shipments</div>
+                <div id="shipment-list" class="shipment-list"></div>
+            </section>
+            <!-- MAIN TRACKING CARD - only this prints -->
+            <section id="mainTrackingCard" class="details-panel hidden">
+                <div class="details-header">
+                    <div>Shipment Details</div>
+                    <div class="shipment-number" id="display-tracking">—</div>
+                </div>
+                <div class="status-banner">
+                    <span class="status-label">Current Shipment Status:</span>
+                    <span class="status-value" id="display-status">—</span>
+                </div>
+                <div class="detail-grid">
+                    <div class="card-block">
+                        <div class="section-title">Shipment Details</div>
+                        <div class="info-grid" id="info-grid"></div>
+                    </div>
+                    <div class="card-block">
+                        <div class="section-title">Tracking History</div>
+                        <div class="history-panel" id="history-panel">
+                            <div id="history-list">
+                                <div class="history-item" style="text-align:center;">Select a shipment to view history.</div>
+                            </div>
+                        </div>
+                        <button class="print-button" id="printTrackingBtn" type="button">Print Shipment Ticket</button>
+                    </div>
+                </div>
+            </section>
+            <section id="services" class="section">
+                <div class="section-heading">Our Services</div>
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div class="stat-number">10K+</div>
+                        <div class="stat-label">Shipments Delivered</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">98%</div>
+                        <div class="stat-label">On-time Delivery</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Happy Clients</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Customer Support</div>
+                    </div>
+                </div>
+            </section>
+            <section id="about" class="section" style="background:#ffffff;">
+                <div class="section-heading">About</div>
+                <p>Since 2020, we provide reliable shipment tracking solutions for businesses and individuals. Enter your email, verify with OTP, and access all shipments connected to your account in one place.</p>
+            </section>
+        </main>
+        <script>
+    // dynamic base path computed from current URL
+    const APP_BASE_URL = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '');
+    const API_BASE = `${APP_BASE_URL}/api`;
+    const EMAIL_API = `${API_BASE}/track-email.php`;
+    const TRACK_API = `${API_BASE}/track.php`;
+    const API_BEARER_TOKEN = "v9K3hY2fQ8sV7mR4tP1xL6aZ0bN5cUq-Wy_e3D2F8G7H1J4K9L0M2";
+    const EmailTracking = {
+      currentEmail: '',
+      timerId: null,
+      remaining: 20 * 60,
+      init() { this.cache(); this.renderOTPInputs(); this.bind(); this.maybeLoadFromQuery(); },
+      cache() { this.emailSection = document.getElementById('email-tracking-section'); this.otpSection = document.getElementById('otp-verification-section'); this.emailForm = document.getElementById('email-tracking-form'); this.otpButton = document.getElementById('verify-otp-button'); this.resendButton = document.getElementById('resend-otp-button'); this.shipmentList = document.getElementById('shipment-list'); this.trackingResults = document.getElementById('shipments'); this.detailsCard = document.getElementById('mainTrackingCard'); this.trackNumber = document.getElementById('display-tracking'); this.statusText = document.getElementById('display-status'); this.infoGrid = document.getElementById('info-grid'); this.historyList = document.getElementById('history-list'); this.printBtn = document.getElementById('printTrackingBtn'); this.alerts = document.getElementById('tracking-alerts'); },
+      bind() { this.emailForm.addEventListener('submit', (e) => this.submitEmail(e)); this.otpButton.addEventListener('click', () => this.submitOTP()); this.resendButton.addEventListener('click', () => this.requestOTP(this.currentEmail)); this.printBtn.addEventListener('click', () => window.print()); },
+      renderOTPInputs() { const container = document.getElementById('otp-inputs'); container.innerHTML = ''; for (let i = 0; i < 6; i++) { const input = document.createElement('input'); input.type = 'text'; input.maxLength = 1; input.pattern = '[0-9]'; input.style.width = '56px'; input.style.height = '56px'; input.style.borderRadius = '16px'; input.style.border = '1px solid #d9e2ec'; input.style.textAlign = 'center'; input.style.fontSize = '1.3rem'; input.style.fontWeight = '700'; input.style.background = '#f8fafc'; input.addEventListener('input', (event) => { const next = event.target.nextElementSibling; if (event.target.value && next) next.focus(); }); input.addEventListener('keydown', (event) => { if (event.key === 'Backspace' && event.target.value === '') { const prev = event.target.previousElementSibling; if (prev) prev.focus(); } }); container.appendChild(input); } },
+      showAlert(message, type = 'success') { const alert = document.createElement('div'); alert.className = `alert alert-${type}`; alert.textContent = message; this.alerts.appendChild(alert); setTimeout(() => alert.remove(), 7000); },
+      submitEmail(event) { event.preventDefault(); const email = document.getElementById('email-input').value.trim(); if (!this.validateEmail(email)) { this.showAlert('Please enter a valid email address.', 'danger'); return; } this.currentEmail = email; this.requestOTP(email); },
+      validateEmail(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); },
+      requestOTP(email) { const button = this.emailForm.querySelector('button'); button.disabled = true; button.textContent = 'Sending OTP...'; const headers = { 'Content-Type': 'application/json' }; if (API_BEARER_TOKEN) headers.Authorization = `Bearer ${API_BEARER_TOKEN}`; fetch(EMAIL_API, { method: 'POST', headers, body: JSON.stringify({ email }) }).then((res) => res.json()).then((data) => { button.disabled = false; button.textContent = 'Send Verification Code'; if (data.success) { this.showAlert(`OTP sent to ${email}.`, 'success'); this.showOTP(); this.startTimer(); } else { this.showAlert(data.message || 'Unable to send OTP.', 'danger'); } }).catch((error) => { button.disabled = false; button.textContent = 'Send Verification Code'; this.showAlert('Unable to send OTP. Check your API endpoint.', 'danger'); console.error(error); }); },
+      showOTP() { this.emailSection.classList.add('hidden'); this.trackingResults.classList.add('hidden'); this.otpSection.classList.remove('hidden'); const first = document.querySelector('#otp-inputs input'); if (first) first.focus(); },
+      submitOTP() { const inputs = Array.from(document.querySelectorAll('#otp-inputs input')); const otp = inputs.map((input) => input.value).join(''); if (otp.length !== 6) { this.showAlert('Enter the complete 6-digit code.', 'warning'); return; } const button = this.otpButton; button.disabled = true; button.textContent = 'Verifying...'; const headers = { 'Content-Type': 'application/json' }; if (API_BEARER_TOKEN) headers.Authorization = `Bearer ${API_BEARER_TOKEN}`; fetch(EMAIL_API, { method: 'POST', headers, body: JSON.stringify({ email: this.currentEmail, otp }) }).then((res) => res.json()).then((data) => { button.disabled = false; button.textContent = 'Verify OTP'; if (data.success) { this.showAlert('Email verified successfully.', 'success'); this.otpSection.classList.add('hidden'); this.trackingResults.classList.remove('hidden'); this.loadShipments(); } else { this.showAlert(data.message || 'OTP verification failed.', 'danger'); } }).catch((error) => { button.disabled = false; button.textContent = 'Verify OTP'; this.showAlert('Error verifying OTP.', 'danger'); console.error(error); }); },
+      loadShipments() { this.trackingResults.classList.remove('hidden'); this.shipmentList.innerHTML = '<div class="shipment-card" style="text-align:center;padding:28px;"><span>Loading shipments...</span></div>'; const headers = { 'Content-Type': 'application/json' }; if (API_BEARER_TOKEN) headers.Authorization = `Bearer ${API_BEARER_TOKEN}`; fetch(EMAIL_API, { method: 'POST', headers, body: JSON.stringify({ email: this.currentEmail, action: 'get_shipments' }) }).then((res) => res.json()).then((data) => { if (data.success && Array.isArray(data.data) && data.data.length > 0) { this.renderShipments(data.data); } else { this.shipmentList.innerHTML = `<div class="alert alert-warning">${data.message || 'No shipments found for this email.'}</div>`; } }).catch((error) => { this.shipmentList.innerHTML = '<div class="alert alert-danger">Unable to load shipments.</div>'; console.error(error); }); },
+      renderShipments(shipments) { this.shipmentList.innerHTML = shipments.map((shipment) => { const statusText = shipment.status ? shipment.status.replace(/_/g, ' ').toUpperCase() : 'UNKNOWN'; return `<div class="shipment-card"><div class="shipment-header"><div class="shipment-number">${shipment.tracking_number || 'No Tracking'}</div><div class="badge-custom">${statusText}</div></div><div class="shipment-body"><p><strong>Shipper:</strong> ${shipment.shipper_name || 'N/A'}</p><p><strong>Origin:</strong> ${shipment.origin || 'N/A'}</p><p><strong>Destination:</strong> ${shipment.destination || 'N/A'}</p><p><strong>ETA:</strong> ${shipment.estimated_delivery || 'N/A'}</p></div><div class="shipment-footer"><button class="view-details-btn" data-tracking="${shipment.tracking_number}">View Details</button></div></div>`; }).join(''); this.attachDetailButtons(); },
+      attachDetailButtons() { document.querySelectorAll('.view-details-btn').forEach((button) => { button.addEventListener('click', () => { this.showShipment(button.dataset.tracking); }); }); },
+      showShipment(trackingNumber) { this.detailsCard.classList.remove('hidden'); this.detailsCard.scrollIntoView({ behavior: 'smooth', block: 'start' }); this.trackNumber.textContent = trackingNumber; this.loadShipmentDetails(trackingNumber); this.loadTrackingHistory(trackingNumber); },
+      loadShipmentDetails(trackingNumber) { const headers = {}; if (API_BEARER_TOKEN) headers.Authorization = `Bearer ${API_BEARER_TOKEN}`; fetch(`${TRACK_API}?tracking_number=${encodeURIComponent(trackingNumber)}`, { headers }).then((res) => res.json()).then((data) => { if (data.success && data.data) { const shipment = data.data; this.statusText.textContent = (shipment.status || 'N/A').replace(/_/g, ' ').toUpperCase(); this.populateDetails(shipment); } else { this.showAlert('Unable to load shipment details.', 'danger'); } }).catch((error) => { this.showAlert('Error loading details.', 'danger'); console.error(error); }); },
+      populateDetails(shipment) { const fields = [['Origin', shipment.origin || 'N/A'], ['Destination', shipment.destination || 'N/A'], ['Packages', shipment.num_packages || shipment.package_description || 'N/A'], ['Weight', shipment.gross_weight ? shipment.gross_weight + ' KGS' : 'N/A'], ['Product', shipment.goods_description || 'N/A'], ['Carrier', shipment.carrier || '—'], ['Mode', shipment.mode || '—'], ['Payment', shipment.payment_mode || '—'], ['Total Freight', shipment.total_freight || '—'], ['ETA', shipment.estimated_delivery || '—'], ['Departure', shipment.etd || '—'], ['Comments', shipment.comments || '—']]; this.infoGrid.innerHTML = fields.map(([label, value]) => `<div class="info-row"><div class="info-label">${label}</div><div class="info-value">${value}</div></div>`).join(''); },
+      loadTrackingHistory(trackingNumber) { this.historyList.innerHTML = '<div class="history-item" style="text-align:center;">Loading history...</div>'; const headers = {}; if (API_BEARER_TOKEN) headers.Authorization = `Bearer ${API_BEARER_TOKEN}`; fetch(`${TRACK_API}/history?number=${encodeURIComponent(trackingNumber)}`, { headers }).then((res) => res.json()).then((data) => { if (data.success && Array.isArray(data.data)) { this.renderHistory(data.data); } else { this.historyList.innerHTML = '<div class="history-item" style="text-align:center;">No history available yet</div>'; } }).catch(() => { this.historyList.innerHTML = '<div class="history-item" style="text-align:center;">Unable to load history</div>'; }); },
+      renderHistory(items) { if (!items.length) { this.historyList.innerHTML = '<div class="history-item" style="text-align:center;">No tracking history available yet</div>'; return; } this.historyList.innerHTML = items.map((item) => { const date = item.created_at ? new Date(item.created_at) : new Date(); const dateText = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }); const timeText = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }); return `<div class="history-item"><div class="history-date">${dateText} ${timeText}</div><div class="history-meta"><strong>Status:</strong> ${(item.status || 'N/A').replace(/_/g, ' ').toUpperCase()}</div><div class="history-meta"><strong>Location:</strong> ${item.location || 'N/A'}</div>${item.remarks ? `<div class="history-remarks"><strong>Remarks:</strong> ${item.remarks}</div>` : ''}</div>`; }).join(''); },
+      startTimer() { clearInterval(this.timerId); this.remaining = 20 * 60; const timer = document.getElementById('session-timer'); const tick = () => { const mins = Math.floor(this.remaining / 60); const secs = this.remaining % 60; if (timer) timer.textContent = `${mins}:${secs.toString().padStart(2,'0')}`; if (this.remaining <= 0) { clearInterval(this.timerId); this.showAlert('Verification session expired. Please request a new OTP.','warning'); this.resetPage(); return; } this.remaining -= 1; }; tick(); this.timerId = setInterval(tick, 1000); },
+      resetPage() { this.otpSection.classList.add('hidden'); this.emailSection.classList.remove('hidden'); this.trackingResults.classList.add('hidden'); document.getElementById('email-input').value = ''; document.querySelectorAll('#otp-inputs input').forEach((input) => input.value = ''); const timer = document.getElementById('session-timer'); if (timer) timer.textContent = '20:00'; clearInterval(this.timerId); },
+      maybeLoadFromQuery() { const params = new URLSearchParams(window.location.search); const tracking = params.get('tracking'); if (tracking) { this.showShipment(tracking); } }
+    };
+    document.addEventListener('DOMContentLoaded', () => EmailTracking.init());
+        </script>
+        <!-- Bootstrap JS (optional, but for any toggles etc) -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>
