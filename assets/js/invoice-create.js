@@ -236,7 +236,7 @@ const InvoiceCreate = {
                         <td>${charge.category || '-'}</td>
                         <td>1</td>
                         <td>${parseFloat(charge.amount).toLocaleString(undefined, { minimumFractionDigits: 0 })}</td>
-                        <td class="line-amount">AED ${parseFloat(charge.amount).toLocaleString(undefined, { minimumFractionDigits: 0 })}</td>
+                        <td class="line-amount">PKR ${parseFloat(charge.amount).toLocaleString(undefined, { minimumFractionDigits: 0 })}</td>
                         <td class="delete-cell"></td>
                     `;
                     tbody.appendChild(row);
@@ -366,7 +366,7 @@ const InvoiceCreate = {
 
             if (item.is_adhoc) row.className = 'adhoc-row';
 
-            const displayAmount = (row.dataset.type === 'discount' ? '-' : '') + 'AED ' + Math.abs(item.amount || 0).toLocaleString(undefined, { minimumFractionDigits: 0 });
+            const displayAmount = (row.dataset.type === 'discount' ? '-' : '') + 'PKR ' + Math.abs(item.amount || 0).toLocaleString(undefined, { minimumFractionDigits: 0 });
 
             row.innerHTML = `
                 <td>${item.description || ''}</td>
@@ -444,7 +444,7 @@ const InvoiceCreate = {
         row.className = 'adhoc-row';
 
         const categoryLabel = document.getElementById('adhocCategory').selectedOptions[0].textContent;
-        const displayAmount = (displayType === 'discount' ? '-' : '') + 'AED ' + amount.toLocaleString(undefined, { minimumFractionDigits: 0 });
+        const displayAmount = (displayType === 'discount' ? '-' : '') + 'PKR ' + amount.toLocaleString(undefined, { minimumFractionDigits: 0 });
 
         row.innerHTML = `
             <td>${desc}</td>
@@ -513,17 +513,17 @@ const InvoiceCreate = {
         const totalDiscount = totalAdhocDiscount + globalDiscount;
         const grandTotal = Math.max(0, amountBeforeDiscount - totalDiscount);
 
-        document.getElementById('summarySubtotal').textContent = 'AED ' + subtotal.toLocaleString(undefined, { minimumFractionDigits: 0 });
+        document.getElementById('summarySubtotal').textContent = 'PKR ' + subtotal.toLocaleString(undefined, { minimumFractionDigits: 0 });
 
         if (totalDiscount > 0) {
             document.getElementById('discountRow').style.display = 'flex';
-            document.getElementById('summaryDiscount').textContent = '- AED ' + totalDiscount.toLocaleString(undefined, { minimumFractionDigits: 0 });
+            document.getElementById('summaryDiscount').textContent = '- PKR ' + totalDiscount.toLocaleString(undefined, { minimumFractionDigits: 0 });
         } else {
             document.getElementById('discountRow').style.display = 'none';
         }
 
-        document.getElementById('summaryTax').textContent = 'AED ' + totalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
-        document.getElementById('summaryTotal').textContent = 'AED ' + grandTotal.toLocaleString(undefined, { minimumFractionDigits: 2 });
+        document.getElementById('summaryTax').textContent = 'PKR ' + totalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
+        document.getElementById('summaryTotal').textContent = 'PKR ' + grandTotal.toLocaleString(undefined, { minimumFractionDigits: 2 });
 
         // Store totals for saving
         this.invoiceTotals = {

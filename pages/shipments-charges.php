@@ -141,12 +141,12 @@ if (session_status() === PHP_SESSION_NONE) {session_start();}
                         <input type="number" id="detention-delay-days" class="form-control" value="0" min="0" readonly>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Rate per Day (AED)</label>
+                        <label class="form-label">Rate per Day (PKR)</label>
                         <input type="number" id="detention-rate" class="form-control" value="200" min="0" step="0.01">
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Total Amount</label>
-                        <input type="text" id="detention-amount" class="form-control" readonly value="AED 0.00">
+                        <input type="text" id="detention-amount" class="form-control" readonly value="PKR 0.00">
                     </div>
                     <div class="col-12">
                         <label class="form-label">Remarks</label>
@@ -202,7 +202,7 @@ if (session_status() === PHP_SESSION_NONE) {session_start();}
                         <input type="text" id="local-description" class="form-control" placeholder="e.g. Terminal Handling Charges (THC)">
                     </div>
                     <div class="col-12">
-                        <label class="form-label">Amount (AED)</label>
+                        <label class="form-label">Amount (PKR)</label>
                         <input type="number" id="local-amount" class="form-control" min="0" step="0.01">
                     </div>
                 </div>

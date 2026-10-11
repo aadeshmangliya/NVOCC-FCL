@@ -55,7 +55,7 @@ if (session_status() === PHP_SESSION_NONE) {
                             </select>
                         </div>
                         <div class="field">
-                            <label>Amount (AED) <span class="req">*</span></label>
+                            <label>Amount (PKR) <span class="req">*</span></label>
                             <input type="number" id="adhocAmount" placeholder="e.g. 150" step="0.01">
                         </div>
                         <button class="btn btn-teal" id="addAdhocBtn">+ Add to Invoice</button>
@@ -71,7 +71,7 @@ if (session_status() === PHP_SESSION_NONE) {
                             <div class="hint">Tax percentage applied to subtotal plus additional charges.</div>
                         </div>
                         <div class="field">
-                            <label>Discount (AED)</label>
+                            <label>Discount (PKR)</label>
                             <input type="number" id="globalDiscountInput" placeholder="e.g. 100" step="0.01" value="0">
                             <div class="hint">Flat discount off the subtotal.</div>
                         </div>
@@ -99,9 +99,9 @@ if (session_status() === PHP_SESSION_NONE) {
                                 <div class="inv-number" id="invoiceNumber"># INV-XXXX-XXXX · Date: <span id="invoiceDate"></span></div>
                             </div>
                             <div class="right">
-                                <strong>RoyalGulf Shipping & Logistics LLC</strong><br>
-                                Dubai, UAE · TRN: 100256789300003<br>
-                                info@royalgulfshipping.com · +971 4 3331785
+                                <strong>Indus Magna Shipping</strong><br>
+                                Karachi, Pakistan · NTN<br>
+                                info@indusmagnashipping.com · +92 312 3650805
                             </div>
                         </div>
 
@@ -150,8 +150,8 @@ if (session_status() === PHP_SESSION_NONE) {
                                     <th>Description</th>
                                     <th>Category</th>
                                     <th>Qty / Days</th>
-                                    <th>Rate (AED)</th>
-                                    <th>Amount (AED)</th>
+                                    <th>Rate (PKR)</th>
+                                    <th>Amount (PKR)</th>
                                     <th class="delete-cell"></th>
                                 </tr>
                             </thead>
@@ -165,11 +165,11 @@ if (session_status() === PHP_SESSION_NONE) {
                         <!-- Summary box -->
                         <div class="summary-box">
                             <div class="summary-inner" id="summaryBox">
-                                <div class="row"><span style="font-weight: 800;">Subtotal (Charges)</span> <span id="summarySubtotal">AED 0</span></div>
-                                <div class="row"><span style="font-weight: 800;">Tax</span> <span id="summaryTax">AED 0</span></div>
+                                <div class="row"><span style="font-weight: 800;">Subtotal (Charges)</span> <span id="summarySubtotal">PKR 0</span></div>
+                                <div class="row"><span style="font-weight: 800;">Tax</span> <span id="summaryTax">PKR 0</span></div>
                                 <div class="row discount invoice-discount-row" id="discountRow"><span style="font-weight: 800;">Discount</span> <span
-                                        id="summaryDiscount">- AED 0</span></div>
-                                <div class="row total"><span style="font-weight: 800;">Total Due</span> <span id="summaryTotal">AED 0</span></div>
+                                        id="summaryDiscount">- PKR 0</span></div>
+                                <div class="row total"><span style="font-weight: 800;">Total Due</span> <span id="summaryTotal">PKR 0</span></div>
                             </div>
                         </div>
 

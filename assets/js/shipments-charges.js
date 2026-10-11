@@ -154,7 +154,7 @@ const ShipmentsChargesPage = {
         const rate = parseFloat(rateInput.value || 0);
         const delayDays = parseInt(delayInput.value || 0, 10);
         const amount = rate * delayDays;
-        amountInput.value = Number.isFinite(amount) && amount > 0 ? `AED ${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : 'AED 0.00';
+        amountInput.value = Number.isFinite(amount) && amount > 0 ? `PKR ${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : 'PKR 0.00';
     },
 
     async createDetentionCharge() {
@@ -300,7 +300,7 @@ const ShipmentsChargesPage = {
         if (detentionDelayInput) detentionDelayInput.value = '0';
         
         const detentionAmountInput = document.getElementById('detention-amount');
-        if (detentionAmountInput) detentionAmountInput.value = 'AED 0.00';
+        if (detentionAmountInput) detentionAmountInput.value = 'PKR 0.00';
     },
 
     renderTables() {
@@ -321,7 +321,7 @@ const ShipmentsChargesPage = {
                     <td>${item.description || item.charge_type}</td>
                     <td>${item.expiry_date || '-'}</td>
                     <td>${item.delay_days || 0}</td>
-                    <td>AED ${parseFloat(item.amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                    <td>PKR ${parseFloat(item.amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                     <td><span class="badge bg-${(item.status || 'unpaid') === 'paid' ? 'success' : 'warning'} text-dark">${(item.status || 'unpaid').toUpperCase()}</span></td>
                     <td>${item.remarks || '-'}</td>
                 </tr>
@@ -334,7 +334,7 @@ const ShipmentsChargesPage = {
                     <td><strong>${item.tracking_number}</strong></td>
                     <td>${item.charge_category || 'Local Charge'}</td>
                     <td>${item.description || '-'}</td>
-                    <td>AED ${parseFloat(item.amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                    <td>PKR ${parseFloat(item.amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                     <td><span class="badge bg-${(item.status || 'unpaid') === 'paid' ? 'success' : 'warning'} text-dark">${(item.status || 'unpaid').toUpperCase()}</span></td>
                 </tr>
             `).join('')

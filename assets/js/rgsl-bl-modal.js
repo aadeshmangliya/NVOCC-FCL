@@ -14,7 +14,7 @@
     const mo = String(d.getMonth() + 1).padStart(2, '0');
     const rnd = String(Math.floor(Math.random() * 9000) + 1000);
     const bl = qs('bl_number');
-    if (bl) bl.value = 'RGSL-BL-' + yr + mo + '-' + rnd;
+    if (bl) bl.value = 'BL-' + yr + mo + '-' + rnd;
   };
 
   // Package table: add / remove rows

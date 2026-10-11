@@ -14,7 +14,7 @@
                     <form id="tracking-form">
                         <div class="input-group">
                             <input type="text" class="form-control form-control-lg" id="tracking-number" 
-                                   placeholder="Enter tracking number (e.g., RGSL-202506-0001)" required>
+                                   placeholder="Enter tracking number (e.g., 202506-0001)" required>
                             <button type="submit" class="btn btn-primary btn-lg">Search</button>
                         </div>
                     </form>

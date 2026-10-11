@@ -57,7 +57,7 @@ $currentUserRole = $_SESSION['role'] ?? 'admin';
         </button>
         <h5 class="modal-title mb-0" id="blModalLabel">
           <i class="bi bi-file-earmark-text me-2"></i>
-          Royal Gulf Shipping &amp; Logistics LLC — Bill of Lading
+          Bill of Lading
         </h5>
         <div style="width:70px;"><!-- spacer to balance the Back button --></div>
       </div>
@@ -105,6 +105,16 @@ $currentUserRole = $_SESSION['role'] ?? 'admin';
                     placeholder="Full address with city, country"></textarea>
                 </div>
               </div>
+              <div class="row g-3 mt-1">
+                <div class="col-md-3">
+                  <label class="form-label">Shipper (Consignor) Country</label>
+                  <input type="text" class="form-control" name="shipper_country" placeholder="e.g. United Arab Emirates">
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Shipper (Consignor) Port</label>
+                  <input type="text" class="form-control" name="shipper_port" placeholder="e.g. Jebel Ali">
+                </div>
+              </div>
 
               <div class="sec-head"><i class="bi bi-person-check"></i>Consignee/Receiver</div>
               <div class="row g-3">
@@ -129,6 +139,16 @@ $currentUserRole = $_SESSION['role'] ?? 'admin';
                   <label class="form-label">Consignee Address <span class="req">*</span></label>
                   <textarea class="form-control" name="consignee_address" rows="2" required
                     placeholder="Full delivery address"></textarea>
+                </div>
+              </div>
+              <div class="row g-3 mt-1">
+                <div class="col-md-3">
+                  <label class="form-label">Consignee City</label>
+                  <input type="text" class="form-control" name="consignee_city" placeholder="e.g. Karachi">
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Consignee Country</label>
+                  <input type="text" class="form-control" name="consignee_country" placeholder="e.g. Pakistan">
                 </div>
               </div>
 
@@ -231,6 +251,96 @@ $currentUserRole = $_SESSION['role'] ?? 'admin';
                 <div class="col-md-4">
                   <label class="form-label">Carrier Reference No</label>
                   <input type="text" class="form-control" name="carrier_reference_no" placeholder="CRR-2025-001">
+                </div>
+              </div>
+
+              <div class="sec-head"><i class="bi bi-file-earmark-text"></i>IGM / Port Call Information</div>
+              <div class="row g-3">
+                <div class="col-md-4">
+                  <label class="form-label">VIR Number</label>
+                  <input type="text" class="form-control" name="vir_number" placeholder="PKKHIKGTL_060726131431">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">IGM Number</label>
+                  <input type="text" class="form-control" name="igm_number" placeholder="IGM-2026-001">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">IGM Date</label>
+                  <input type="date" class="form-control" name="igm_date">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Vessel Status</label>
+                  <select class="form-select" name="vessel_status">
+                    <option value="">-- Select --</option>
+                    <option>Not Claimed</option>
+                    <option>Claimed</option>
+                    <option>In Transit</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Berthed At</label>
+                  <input type="text" class="form-control" name="berthed_at" placeholder="M/s Karachi Gateway Terminal (Pvt) Limited">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Last Port of Call</label>
+                  <input type="text" class="form-control" name="last_port_of_call" placeholder="Port code / name">
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Exp. Date of Arrival</label>
+                  <input type="date" class="form-control" name="exp_date_of_arrival">
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Exp. Time of Arrival</label>
+                  <input type="time" class="form-control" name="exp_time_of_arrival">
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Exp. Departure Date</label>
+                  <input type="date" class="form-control" name="exp_departure_date">
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Exp. Departure Time</label>
+                  <input type="time" class="form-control" name="exp_departure_time">
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Berthing Date</label>
+                  <input type="date" class="form-control" name="berthing_date">
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Sailing Date</label>
+                  <input type="date" class="form-control" name="sailing_date">
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">VIR Confirmation Date</label>
+                  <input type="datetime-local" class="form-control" name="vir_confirmation_date">
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">VIR Launched By</label>
+                  <input type="text" class="form-control" name="vir_launched_by" placeholder="Shipping agent / company">
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Delivery Mode</label>
+                  <select class="form-select" name="delivery_mode">
+                    <option value="">-- Auto --</option>
+                    <option>CY</option>
+                    <option>CFS</option>
+                    <option>Door</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Stuffing Status</label>
+                  <select class="form-select" name="stuffing_status">
+                    <option value="">-- Auto --</option>
+                    <option>FCL</option>
+                    <option>LCL</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Via Port</label>
+                  <input type="text" class="form-control" name="via_port" placeholder="Terminal / via port">
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Plot Number</label>
+                  <input type="text" class="form-control" name="plot_number" placeholder="0">
                 </div>
               </div>
 

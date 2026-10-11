@@ -1,425 +1,573 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Combined Transport Bill of Lading</title>
-<style>
-* { box-sizing: border-box; }
-body {
-    margin: 0;
-    background: #eef2f5;
-    font-family: Arial, Helvetica, sans-serif;
-    padding: 30px 20px;
-    color: #000;
-}
-.bol-container {
-    max-width: 1100px;
-    margin: 0 auto;
-    background: #fff;
-    border: 2px solid #000;
-}
-.bol-title {
-    text-align: center;
-    font-size: 20px;
-    font-weight: 800;
-    letter-spacing: 1px;
-    padding: 14px 10px 10px;
-    border-bottom: 2px solid #000;
-}
-.top-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-}
-.top-left, .top-right {
-    border-right: 2px solid #000;
-}
-.top-right { border-right: none; }
-.box {
-    border-bottom: 1px solid #000;
-    padding: 8px 12px;
-    min-height: 70px;
-}
-.box-label {
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    margin-bottom: 4px;
-}
-.box-value {
-    font-size: 11.5px;
-    font-weight: 700;
-    line-height: 1.5;
-    white-space: pre-line;
-}
-.logo-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 70px;
-    border-bottom: 1px solid #000;
-    padding: 10px;
-}
-.logo-box img { max-height: 55px; }
-.logo-text {
-    font-size: 26px;
-    font-weight: 900;
-    letter-spacing: 2px;
-}
-.logo-sub {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 3px;
-    text-align: center;
-}
-.right-two-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    border-bottom: 1px solid #000;
-}
-.right-two-col .box { border-bottom: none; border-right: 1px solid #000; }
-.right-two-col .box:last-child { border-right: none; }
-.bl-no { font-size: 12px; font-weight: 800; }
-.right-three-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    border-bottom: 1px solid #000;
-}
-.right-three-col .box { border-bottom: none; border-right: 1px solid #000; }
-.right-three-col .box:last-child { border-right: none; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill of Lading</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-.full-box {
-    border-bottom: 1px solid #000;
-    padding: 8px 12px;
-    min-height: 50px;
-}
+        body {
+            margin: 0;
+            background: #eef2f5;
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 30px 20px;
+            color: #000;
+        }
 
-.mid-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    border-bottom: 2px solid #000;
-}
-.mid-grid .box { border-right: 2px solid #000; }
-.mid-grid .box:last-child { border-right: none; }
+        .bol-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #fff;
+            border: 2px solid #000;
+        }
 
-.cargo-header {
-    text-align: center;
-    font-size: 11px;
-    font-weight: 800;
-    text-transform: uppercase;
-    padding: 6px;
-    border-bottom: 1px solid #000;
-    background: #f1f1f1;
-}
+        .bol-title {
+            text-align: center;
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            padding: 14px 10px 10px;
+            border-bottom: 2px solid #000;
+        }
 
-.cargo-table-wrap { display: flex; }
-.cargo-col-1 {
-    width: 14%;
-    border-right: 1px solid #000;
-    padding: 8px 10px;
-    font-size: 10px;
-    font-weight: 700;
-}
-.cargo-col-2 {
-    width: 10%;
-    border-right: 1px solid #000;
-    padding: 8px 10px;
-    font-size: 11px;
-    font-weight: 700;
-    text-align: center;
-}
-.cargo-col-3 {
-    width: 50%;
-    border-right: 1px solid #000;
-    padding: 8px 10px;
-    font-size: 10.5px;
-    line-height: 1.6;
-}
-.cargo-col-4 {
-    width: 13%;
-    border-right: 1px solid #000;
-    padding: 8px 10px;
-    font-size: 10.5px;
-    font-weight: 700;
-}
-.cargo-col-5 {
-    width: 13%;
-    padding: 8px 10px;
-    font-size: 10.5px;
-    font-weight: 700;
-}
-.cargo-table-wrap { border-bottom: 2px solid #000; min-height: 150px; }
-.bottom-grid {
-    display: grid;
-    grid-template-columns: 1.4fr 1fr;
-}
-.bottom-left { border-right: 2px solid #000; }
-.bottom-left .box { min-height: 40px; }
-.charges-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 9.5px;
-}
-.charges-table th, .charges-table td {
-    border: 1px solid #000;
-    padding: 5px 6px;
-    text-align: left;
-}
-.jurisdiction {
-    padding: 10px 12px;
-    font-size: 8.5px;
-    line-height: 1.5;
-    text-align: center;
-    border-top: 1px solid #000;
-}
-.jurisdiction .cn {
-    font-size: 11px;
-    margin-top: 4px;
-}
+        .top-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
 
-.freight-total {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    border-top: 1px solid #000;
-}
-.freight-total .box { border-right: 1px solid #000; min-height: 35px; }
-.freight-total .box:last-child { border-right: none; }
+        .top-left,
+        .top-right {
+            border-right: 2px solid #000;
+        }
 
-.right-box { border-bottom: 1px solid #000; padding: 8px 12px; }
-.right-box.last { border-bottom: none; }
-.signed-line { font-size: 11px; font-weight: 800; margin-top: 6px; }
+        .top-right {
+            border-right: none;
+        }
 
-.action-bar {
-    background: #f8fafc;
-    padding: 14px;
-    text-align: center;
-    border-top: 1px solid #dee2e6;
-}
-.btn-print {
-    background: #1a365d;
-    color: white;
-    border: none;
-    padding: 8px 32px;
-    font-weight: 700;
-    border-radius: 40px;
-    cursor: pointer;
-}
-.btn-print:hover { background: #2b6cb0; }
+        .box {
+            border-bottom: 1px solid #000;
+            padding: 8px 12px;
+            min-height: 70px;
+        }
+
+        .box-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .box-value {
+            font-size: 11.5px;
+            font-weight: 700;
+            line-height: 1.5;
+            white-space: pre-line;
+        }
+
+        .logo-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 70px;
+            border-bottom: 1px solid #000;
+            padding: 10px;
+        }
+
+        .logo-box img {
+            max-height: 55px;
+        }
+
+        .logo-text {
+            font-size: 26px;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+
+        .logo-sub {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-align: center;
+        }
+
+        .right-two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-bottom: 1px solid #000;
+        }
+
+        .right-two-col .box {
+            border-bottom: none;
+            border-right: 1px solid #000;
+        }
+
+        .right-two-col .box:last-child {
+            border-right: none;
+        }
+
+        .bl-no {
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .right-three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-bottom: 1px solid #000;
+        }
+
+        .right-three-col .box {
+            border-bottom: none;
+            border-right: 1px solid #000;
+        }
+
+        .right-three-col .box:last-child {
+            border-right: none;
+        }
+
+        .full-box {
+            border-bottom: 1px solid #000;
+            padding: 8px 12px;
+            min-height: 50px;
+        }
+
+        .mid-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-bottom: 2px solid #000;
+        }
+
+        .mid-grid .box {
+            border-right: 2px solid #000;
+        }
+
+        .mid-grid .box:last-child {
+            border-right: none;
+        }
+
+        .cargo-header {
+            text-align: center;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 6px;
+            border-bottom: 1px solid #000;
+            background: #f1f1f1;
+        }
+
+        .cargo-table-wrap {
+            display: flex;
+        }
+
+        .cargo-col-1 {
+            width: 14%;
+            border-right: 1px solid #000;
+            padding: 8px 10px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .cargo-col-2 {
+            width: 10%;
+            border-right: 1px solid #000;
+            padding: 8px 10px;
+            font-size: 11px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .cargo-col-3 {
+            width: 50%;
+            border-right: 1px solid #000;
+            padding: 8px 10px;
+            font-size: 10.5px;
+            line-height: 1.6;
+        }
+
+        .cargo-col-4 {
+            width: 13%;
+            border-right: 1px solid #000;
+            padding: 8px 10px;
+            font-size: 10.5px;
+            font-weight: 700;
+        }
+
+        .cargo-col-5 {
+            width: 13%;
+            padding: 8px 10px;
+            font-size: 10.5px;
+            font-weight: 700;
+        }
+
+        .cargo-table-wrap {
+            border-bottom: 2px solid #000;
+            min-height: 150px;
+        }
+
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+        }
+
+        .bottom-left {
+            border-right: 2px solid #000;
+        }
+
+        .bottom-left .box {
+            min-height: 40px;
+        }
+
+        .charges-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 9.5px;
+        }
+
+        .charges-table th,
+        .charges-table td {
+            border: 1px solid #000;
+            padding: 5px 6px;
+            text-align: left;
+        }
+
+        .jurisdiction {
+            padding: 10px 12px;
+            font-size: 8.5px;
+            line-height: 1.5;
+            text-align: center;
+            border-top: 1px solid #000;
+        }
+
+        .jurisdiction .cn {
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .freight-total {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            border-top: 1px solid #000;
+        }
+
+        .freight-total .box {
+            border-right: 1px solid #000;
+            min-height: 35px;
+        }
+
+        .freight-total .box:last-child {
+            border-right: none;
+        }
+
+        .right-box {
+            border-bottom: 1px solid #000;
+            padding: 8px 12px;
+        }
+
+        .right-box.last {
+            border-bottom: none;
+        }
+
+        .signed-line {
+            font-size: 11px;
+            font-weight: 800;
+            margin-top: 6px;
+        }
+
+        .action-bar {
+            background: #f8fafc;
+            padding: 14px;
+            text-align: center;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .btn-print {
+            background: #1a365d;
+            color: white;
+            border: none;
+            padding: 8px 32px;
+            font-weight: 700;
+            border-radius: 40px;
+            cursor: pointer;
+        }
+
+        .btn-print:hover {
+            background: #2b6cb0;
+        }
 
 
-@page { size: A4 portrait; margin: 6mm; }
-@media print {
-    html, body { width: 198mm; background: #fff; padding: 0; margin: 0; }
-    .bol-container { max-width: none; width: 100%; border: 1.5px solid #000; zoom: 0.72; page-break-inside: avoid; break-inside: avoid; }
-    .box, .full-box, .right-box { page-break-inside: avoid; break-inside: avoid; }
-    .cargo-table-wrap { min-height: 120px; }
-    .btn-print, .action-bar { display: none !important; }
-}
+        @page {
+            size: A4 portrait;
+            margin: 6mm;
+        }
 
-</style>
+        @media print {
+
+            html,
+            body {
+                width: 198mm;
+                background: #fff;
+                padding: 0;
+                margin: 0;
+            }
+
+            .bol-container {
+                max-width: none;
+                width: 100%;
+                border: 1.5px solid #000;
+                zoom: 0.72;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            .box,
+            .full-box,
+            .right-box {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            .cargo-table-wrap {
+                min-height: 120px;
+            }
+
+            .btn-print,
+            .action-bar {
+                display: none !important;
+            }
+        }
+    </style>
 </head>
+
 <body>
-<div class="bol-container">
-    <div class="bol-title">COMBINED TRANSPORT BILL OF LADING</div>
+    <div class="bol-container">
+        <div class="bol-title">COMBINED TRANSPORT BILL OF LADING</div>
 
-    <div class="top-grid">
-        <div class="top-left">
-            <div class="box">
-                <div class="box-label">Shipper/Exporter (Complete Name and Address)</div>
-                <div class="box-value">{{shipper_name}}
-{{shipper_address}}</div>
-            </div>
-            <div class="box">
-                <div class="box-label">Consignee (If "To Order" So Indicate)</div>
-                <div class="box-value">{{consignee_name}}
-{{consignee_address}}</div>
-            </div>
-            <div class="box">
-                <div class="box-label">Notify Party (No Claim Shall Attach For Failure To Notify)</div>
-                <div class="box-value">{{notify_name}}
-{{notify_address}}</div>
-            </div>
-            <div class="box">
-                <div class="box-label">Pre-Carriage By</div>
-                <div class="box-value">{{pre_carriage}}</div>
-            </div>
-            <div class="box">
-                <div class="box-label">Ocean Vessel / Voy</div>
-                <div class="box-value">{{vessel_name}} / {{voyage_no}}</div>
-            </div>
-            <div class="box" style="border-bottom:none;">
-                <div class="box-label">Port of Discharge</div>
-                <div class="box-value">{{pod}}</div>
-            </div>
-        </div>
-
-        <div class="top-right">
-            <div class="logo-box">
-                {{#if logo_path}}
-                <img src="{{logo_path}}" alt="{{company_display_name}}" style="max-height:60px; max-width:240px; object-fit:contain;">
-                {{/if}}
-                {{#unless logo_path}}
-                <div class="logo-text">{{company_display_name}}</div>
-                {{/unless}}
-            </div>
-
-            <div class="right-two-col">
+        <div class="top-grid">
+            <div class="top-left">
                 <div class="box">
-                    <div class="box-label">Booking No.</div>
-                    <div class="box-value">{{booking_no}}</div>
+                    <div class="box-label">Shipper/Exporter (Complete Name and Address)</div>
+                    <div class="box-value">{{shipper_name}}
+                        {{shipper_address}}</div>
                 </div>
                 <div class="box">
-                    <div class="box-label">Bill of Lading No.</div>
-                    <div class="bl-no">{{tracking_number}}</div>
-                </div>
-            </div>
-
-            <div class="right-two-col">
-                <div class="box">
-                    <div class="box-label">Export Reference</div>
-                    <div class="box-value">{{export_reference}}</div>
+                    <div class="box-label">Consignee (If "To Order" So Indicate)</div>
+                    <div class="box-value">{{consignee_name}}
+                        {{consignee_address}}</div>
                 </div>
                 <div class="box">
-                    <div class="box-label">Carrier's References</div>
-                    <div class="box-value">{{carrier_reference_no}}</div>
-                </div>
-            </div>
-
-            <div class="box">
-                <div class="box-label">Forwarding Agent - References</div>
-                <div class="box-value">{{forwarding_agent}}</div>
-            </div>
-
-            <div class="box">
-                <div class="box-label">For Delivery Please Contact</div>
-                <div class="box-value">{{destination_agent}}
-{{destination_agent_address}}
-Tel: {{destination_agent_phone}}
-Email: {{destination_agent_email}}</div>
-            </div>
-
-            <div class="right-three-col">
-                <div class="box">
-                    <div class="box-label">Place of Receipt</div>
-                    <div class="box-value">{{place_receipt}}</div>
+                    <div class="box-label">Notify Party (No Claim Shall Attach For Failure To Notify)</div>
+                    <div class="box-value">{{notify_name}}
+                        {{notify_address}}</div>
                 </div>
                 <div class="box">
-                    <div class="box-label">Port of Loading</div>
-                    <div class="box-value">{{pol}}</div>
+                    <div class="box-label">Pre-Carriage By</div>
+                    <div class="box-value">{{pre_carriage}}</div>
                 </div>
-            </div>
-
-            <div class="right-two-col" style="border-bottom:none;">
+                <div class="box">
+                    <div class="box-label">Ocean Vessel / Voy</div>
+                    <div class="box-value">{{vessel_name}} / {{voyage_no}}</div>
+                </div>
                 <div class="box" style="border-bottom:none;">
                     <div class="box-label">Port of Discharge</div>
                     <div class="box-value">{{pod}}</div>
                 </div>
-                <div class="box" style="border-bottom:none;">
-                    <div class="box-label">Place of Delivery</div>
-                    <div class="box-value">{{place_of_delivery}}</div>
-                </div>
             </div>
-        </div>
-    </div>
 
-    <div class="cargo-header">Particular Declared by Shipper But Not Acknowledged by the Carrier</div>
-    <div class="cargo-table-wrap">
-        <div class="cargo-col-1">
-            <div style="font-size:9px; font-weight:800; margin-bottom:6px;">CNTR. NOS W/SEAL NOS. MARKS &amp; NUMBERS</div>
-            {{container_marks_html}}
-        </div>
-        <div class="cargo-col-2">
-            <div style="font-size:9px; font-weight:800; margin-bottom:6px;">NO. OF PKGS. OR SHIPPING UNITS</div>
-            {{total_packages}}
-        </div>
-        <div class="cargo-col-3">
-            <div style="font-size:9px; font-weight:800; margin-bottom:6px;">DESCRIPTION OF GOODS &amp; PACKAGES</div>
-            {{cargo_description_html}}
-        </div>
-        <div class="cargo-col-4">
-            <div style="font-size:9px; font-weight:800; margin-bottom:6px;">GROSS WEIGHT</div>
-            Gr. Wt.<br>{{gross_weight}} KGS<br><br>
-            Net Wt.<br>{{net_weight}} KGS
-        </div>
-        <div class="cargo-col-5">
-            <div style="font-size:9px; font-weight:800; margin-bottom:6px;">MEASUREMENT</div>
-            {{measurement}}
-        </div>
-    </div>
+            <div class="top-right">
+                <div class="logo-box">
+                    {{#if logo_path}}
+                    <img src="{{logo_path}}" alt="{{company_display_name}}"
+                        style="max-height:60px; max-width:240px; object-fit:contain;">
+                    {{/if}}
+                    {{#unless logo_path}}
+                    <div class="logo-text">{{company_display_name}}</div>
+                    {{/unless}}
+                </div>
 
-    <div class="bottom-grid">
-        <div class="bottom-left">
-            <div class="box">
-                <div class="box-label">Type of Movement</div>
-                <div class="box-value">{{type_of_shipment}}</div>
-            </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr;">
-                <div class="box" style="border-right:1px solid #000;">
-                    <div class="box-label">Carrier's Receipt. Total No. of Containers or Packages Received by Carrier</div>
-                    <div class="box-value">{{total_containers}}</div>
+                <div class="right-two-col">
+                    <div class="box">
+                        <div class="box-label">Booking No.</div>
+                        <div class="box-value">{{booking_no}}</div>
+                    </div>
+                    <div class="box">
+                        <div class="box-label">Bill of Lading No.</div>
+                        <div class="bl-no">{{tracking_number}}</div>
+                    </div>
                 </div>
+
+                <div class="right-two-col">
+                    <div class="box">
+                        <div class="box-label">Export Reference</div>
+                        <div class="box-value">{{export_reference}}</div>
+                    </div>
+                    <div class="box">
+                        <div class="box-label">Carrier's References</div>
+                        <div class="box-value">{{carrier_reference_no}}</div>
+                    </div>
+                </div>
+
                 <div class="box">
-                    <div class="box-label">Number of Original Bill of Lading</div>
-                    <div class="box-value">({{no_of_original_bl}})</div>
+                    <div class="box-label">Forwarding Agent - References</div>
+                    <div class="box-value">{{forwarding_agent}}</div>
                 </div>
-            </div>
-            <div class="box">
-                <div class="box-label">Freight and Charges (Indicate Whether Prepaid or Collect)</div>
-                <table class="charges-table">
-                    <tr><th>Charges</th><th>Rate</th><th>Basis</th><th>Prepaid/Collect</th><th>Amount</th></tr>
-                    {{charges_rows_html}}
-                </table>
-            </div>
-            <div class="freight-total">
+
                 <div class="box">
-                    <div class="box-label">Total Freight Prepaid</div>
-                    <div class="box-value">{{total_freight_prepaid}}</div>
+                    <div class="box-label">For Delivery Please Contact</div>
+                    <div class="box-value">{{destination_agent}}
+                        {{destination_agent_address}}
+                        Tel: {{destination_agent_phone}}
+                        Email: {{destination_agent_email}}</div>
                 </div>
-                <div class="box">
-                    <div class="box-label">Total Freight Collect</div>
-                    <div class="box-value">{{total_freight_collect}}</div>
+
+                <div class="right-three-col">
+                    <div class="box">
+                        <div class="box-label">Place of Receipt</div>
+                        <div class="box-value">{{place_receipt}}</div>
+                    </div>
+                    <div class="box">
+                        <div class="box-label">Port of Loading</div>
+                        <div class="box-value">{{pol}}</div>
+                    </div>
                 </div>
-                <div class="box">
-                    <div class="box-label">Total Freight</div>
-                    <div class="box-value">{{total_freight}}</div>
+
+                <div class="right-two-col" style="border-bottom:none;">
+                    <div class="box" style="border-bottom:none;">
+                        <div class="box-label">Port of Discharge</div>
+                        <div class="box-value">{{pod}}</div>
+                    </div>
+                    <div class="box" style="border-bottom:none;">
+                        <div class="box-label">Place of Delivery</div>
+                        <div class="box-value">{{place_of_delivery}}</div>
+                    </div>
                 </div>
-            </div>
-            <div class="jurisdiction">
-                "The contract by or contained in this bill of lading is governed by the law of {{governing_law}} and any claim or dispute arising hereunder or in connection herewith shall be determined by the Courts in {{jurisdiction_place}} and no other Courts"
             </div>
         </div>
 
-        <div>
-            <div class="right-box">
-                <div class="box-label">Excess Value Declaration: Refer to Clause 6(4)(B) + (C) on Reverse Side</div>
+        <div class="cargo-header">Particular Declared by Shipper But Not Acknowledged by the Carrier</div>
+        <div class="cargo-table-wrap">
+            <div class="cargo-col-1">
+                <div style="font-size:9px; font-weight:800; margin-bottom:6px;">CNTR. NOS W/SEAL NOS. MARKS &amp;
+                    NUMBERS</div>
+                {{container_marks_html}}
             </div>
-            <div class="right-box" style="font-size:9px; line-height:1.5;">
-                RECEIVED by the Carrier the Goods as specified above in apparent good order and condition unless otherwise stated, to be transported to such place as agreed, authorised or permitted herein and subject to all the terms and conditions appearing on the front and reverse of this Bill of Lading to which the Merchant agrees by accepting this Bill of Lading, any local privileges and customs notwithstanding.
+            <div class="cargo-col-2">
+                <div style="font-size:9px; font-weight:800; margin-bottom:6px;">NO. OF PKGS. OR SHIPPING UNITS</div>
+                {{total_packages}}
             </div>
-            <div class="right-box">
-                <div class="box-label">Place and Date of Issue</div>
-                <div class="box-value">{{place_of_issue}} &nbsp; {{date_of_issue}}</div>
+            <div class="cargo-col-3">
+                <div style="font-size:9px; font-weight:800; margin-bottom:6px;">DESCRIPTION OF GOODS &amp; PACKAGES
+                </div>
+                {{cargo_description_html}}
             </div>
-            <div class="right-box">
-                <div class="box-label">Freight Payable at</div>
-                <div class="box-value">{{freight_payable_at}}</div>
+            <div class="cargo-col-4">
+                <div style="font-size:9px; font-weight:800; margin-bottom:6px;">GROSS WEIGHT</div>
+                Gr. Wt.<br>{{gross_weight}} KGS<br><br>
+                Net Wt.<br>{{net_weight}} KGS
             </div>
-            <div class="right-box">
-                <div class="box-label">Shipped on Board Date (Local Time)</div>
-                <div class="box-value">{{etd}}</div>
-            </div>
-            <div class="right-box last">
-                <div class="box-label">Signed on Behalf of the Carrier</div>
-                <div class="signed-line">{{carrier_name}}</div>
-                <div class="box-value">{{signatory_location}}</div>
-                <div style="margin-top:30px; font-size:9px;">by ........................................</div>
+            <div class="cargo-col-5">
+                <div style="font-size:9px; font-weight:800; margin-bottom:6px;">MEASUREMENT</div>
+                {{measurement}}
             </div>
         </div>
-    </div>
 
-    <div class="action-bar">
-        <button class="btn-print" onclick="window.print();">PRINT / EXPORT PDF (Official B/L)</button>
+        <div class="bottom-grid">
+            <div class="bottom-left">
+                <div class="box">
+                    <div class="box-label">Type of Movement</div>
+                    <div class="box-value">{{type_of_shipment}}</div>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr;">
+                    <div class="box" style="border-right:1px solid #000;">
+                        <div class="box-label">Carrier's Receipt. Total No. of Containers or Packages Received by
+                            Carrier</div>
+                        <div class="box-value">{{total_containers}}</div>
+                    </div>
+                    <div class="box">
+                        <div class="box-label">Number of Original Bill of Lading</div>
+                        <div class="box-value">({{no_of_original_bl}})</div>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="box-label">Freight and Charges (Indicate Whether Prepaid or Collect)</div>
+                    <table class="charges-table">
+                        <tr>
+                            <th>Charges</th>
+                            <th>Rate</th>
+                            <th>Basis</th>
+                            <th>Prepaid/Collect</th>
+                            <th>Amount</th>
+                        </tr>
+                        {{charges_rows_html}}
+                    </table>
+                </div>
+                <div class="freight-total">
+                    <div class="box">
+                        <div class="box-label">Total Freight Prepaid</div>
+                        <div class="box-value">{{total_freight_prepaid}}</div>
+                    </div>
+                    <div class="box">
+                        <div class="box-label">Total Freight Collect</div>
+                        <div class="box-value">{{total_freight_collect}}</div>
+                    </div>
+                    <div class="box">
+                        <div class="box-label">Total Freight</div>
+                        <div class="box-value">{{total_freight}}</div>
+                    </div>
+                </div>
+                <div class="jurisdiction">
+                    "The contract by or contained in this bill of lading is governed by the law of {{governing_law}} and
+                    any claim or dispute arising hereunder or in connection herewith shall be determined by the Courts
+                    in {{jurisdiction_place}} and no other Courts"
+                </div>
+            </div>
+
+            <div>
+                <div class="right-box">
+                    <div class="box-label">Excess Value Declaration: Refer to Clause 6(4)(B) + (C) on Reverse Side</div>
+                </div>
+                <div class="right-box" style="font-size:9px; line-height:1.5;">
+                    RECEIVED by the Carrier the Goods an specified above in apparent good Order and condition unless
+                    otherwise stated, to be transported to such Place as agreed, authorised or permitted herein and
+                    subject to all the terms which the Merchant agrees by accepting this Bill of Lading, any local
+                    appearing on the front and reverse of this Bill of Lading to privileges and customs notwithstanding.
+                    <br><br>
+                    The particulars given below as stated by the shipper and the weight, measure, quantity, condition,
+                    contents and value of the Goods are unknown of the Carrier.
+                    <br><br>
+                    In WITNESS whereof one (1) original Bill of Lading has been signed if not otherwise stated below,
+                    the same being accomplished the other(s), if any, to be void. If required by the Carrier one (1)
+                    original Bill of lading must be surrendered duly endorsed in exchange for the Goods of delivery
+                    order.
+                </div>
+                <div class="right-box">
+                    <div class="box-label">Place and Date of Issue</div>
+                    <div class="box-value">{{place_of_issue}} &nbsp; {{date_of_issue}}</div>
+                </div>
+                <div class="right-box">
+                    <div class="box-label">Freight Payable at</div>
+                    <div class="box-value">{{freight_payable_at}}</div>
+                </div>
+                <div class="right-box">
+                    <div class="box-label">Shipped on Board Date (Local Time)</div>
+                    <div class="box-value">{{etd}}</div>
+                </div>
+                <div class="right-box last">
+                    <div class="box-label">Signed on Behalf of the Carrier</div>
+                    <div class="signed-line">{{carrier_name}}</div>
+                    <div class="box-value">{{signatory_location}}</div>
+                    <div style="margin-top:30px; font-size:9px;">by ........................................</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-bar">
+            <button class="btn-print" onclick="window.print();">PRINT / EXPORT PDF (Official B/L)</button>
+        </div>
     </div>
-</div>
 </body>
+
 </html>

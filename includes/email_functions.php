@@ -22,7 +22,7 @@ function getInvoiceBaseUrl(): string
 
 function formatInvoiceCurrency($amount): string
 {
-    return 'AED ' . number_format((float)$amount, 2);
+    return 'PKR ' . number_format((float)$amount, 2);
 }
 
 function resolveCompanyAssetUrl(string $path, string $baseUrl): string

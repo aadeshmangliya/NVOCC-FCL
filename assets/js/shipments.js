@@ -787,6 +787,11 @@ const ShipmentsPage = {
             'shipper_name', 'shipper_ref', 'shipper_email', 'shipper_phone', 'shipper_address',
             'consignee_name', 'consignee_phone', 'consignee_email', 'consignee_tax_id', 'consignee_address',
             'notify_name', 'notify_phone', 'notify_address', 'pre_carriage',
+            'shipper_country', 'shipper_port', 'consignee_city', 'consignee_country',
+            'vir_number', 'igm_number', 'igm_date', 'vessel_status', 'berthed_at', 'last_port_of_call',
+            'exp_date_of_arrival', 'exp_time_of_arrival', 'exp_departure_date', 'exp_departure_time',
+            'berthing_date', 'sailing_date', 'vir_confirmation_date', 'vir_launched_by',
+            'delivery_mode', 'stuffing_status', 'via_port', 'plot_number',
 
 
             // Voyage Tab
@@ -823,7 +828,14 @@ const ShipmentsPage = {
         fields.forEach(fieldName => {
             const input = form.querySelector(`[name="${fieldName}"]`);
             if (input && data[fieldName] !== undefined && data[fieldName] !== null) {
-                input.value = data[fieldName];
+                let v = data[fieldName];
+                // DB returns "YYYY-MM-DD HH:MM:SS" - convert for date / datetime-local / time inputs
+                if (typeof v === 'string') {
+                    if (input.type === 'date') v = v.indexOf('0000-00-00') === 0 ? '' : v.substring(0, 10);
+                    else if (input.type === 'datetime-local') v = v.indexOf('0000-00-00') === 0 ? '' : v.replace(' ', 'T').substring(0, 16);
+                    else if (input.type === 'time') v = v.substring(0, 5);
+                }
+                input.value = v;
             }
         });
 
@@ -1226,6 +1238,25 @@ const ShipmentsPage = {
                         <option value="UK" ${data.destination === 'UK' ? 'selected' : ''}>UK</option>
                         <option value="Germany" ${data.destination === 'Germany' ? 'selected' : ''}>Germany</option>
                         <option value="Other" ${data.destination === 'Other' ? 'selected' : ''}>Other</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">ISO Code</label>
+                    <input type="text" class="form-control" name="iso_code[]" value="${this.escapeHtml(data.iso_code || '')}" placeholder="20GP">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Gross Weight (kg)</label>
+                    <input type="number" step="0.001" class="form-control" name="container_gross_weight[]" value="${this.escapeHtml(data.gross_weight || '')}" placeholder="2000.00">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Net Weight (kg)</label>
+                    <input type="number" step="0.001" class="form-control" name="container_net_weight[]" value="${this.escapeHtml(data.net_weight || '')}" placeholder="2000.00">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">SOC (Shipper Owned Container)</label>
+                    <select class="form-select" name="soc[]">
+                        <option value="N" ${data.soc !== 'Y' ? 'selected' : ''}>N</option>
+                        <option value="Y" ${data.soc === 'Y' ? 'selected' : ''}>Y</option>
                     </select>
                 </div>
             </div>`;

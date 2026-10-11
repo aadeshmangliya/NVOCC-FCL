@@ -288,11 +288,66 @@ function extractContainerEntries(array $data): array
     return $entries;
 }
 
+function tableHasColumn(PDO $pdo, string $table, string $column): bool
+{
+    static $cache = [];
+    $key = $table . '.' . $column;
+    if (!array_key_exists($key, $cache)) {
+        try {
+            $safeTable = str_replace('`', '', $table);
+            $stmt = $pdo->query("SHOW COLUMNS FROM `$safeTable` LIKE " . $pdo->quote($column));
+            $cache[$key] = ($stmt && $stmt->fetch() !== false);
+        } catch (Throwable $e) {
+            $cache[$key] = false;
+        }
+    }
+    return $cache[$key];
+}
+
+// Container INSERT that only uses the optional IGM columns when they exist in the database
+function containerInsertSpec(PDO $pdo): array
+{
+    $cols = ['shipment_id', 'container_no', 'container_type', 'seal_no', 'origin', 'destination'];
+    foreach (['iso_code', 'gross_weight', 'net_weight', 'soc'] as $col) {
+        if (tableHasColumn($pdo, 'shipment_containers', $col)) {
+            $cols[] = $col;
+        }
+    }
+    $sql = 'INSERT INTO shipment_containers (' . implode(', ', $cols) . ') VALUES (' . implode(', ', array_fill(0, count($cols), '?')) . ')';
+    return [$sql, $cols];
+}
+
+function containerInsertValues(array $cols, int $shipmentId, array $container): array
+{
+    $vals = [];
+    foreach ($cols as $col) {
+        if ($col === 'shipment_id') {
+            $vals[] = $shipmentId;
+            continue;
+        }
+        $v = $container[$col] ?? null;
+        if ($col === 'soc') {
+            $v = ($v === 'Y') ? 'Y' : 'N';
+        }
+        if (($col === 'gross_weight' || $col === 'net_weight') && $v === '') {
+            $v = null;
+        }
+        $vals[] = $v;
+    }
+    return $vals;
+}
+
 function upsertShipmentDetail(PDO $pdo, int $shipmentId, string $table, array $fields, array $data): bool
 {
     $payload = [];
     foreach ($fields as $field) {
         if (!array_key_exists($field, $data)) {
+            continue;
+        }
+
+        // Skip columns that do not exist yet (e.g. IGM columns before the SQL migration is run)
+        if (!tableHasColumn($pdo, $table, $field)) {
+            error_log("upsertShipmentDetail: column `$table`.`$field` does not exist - value skipped. Run the IGM SQL migration.");
             continue;
         }
 
@@ -336,7 +391,9 @@ function saveShipmentDetailGroups(PDO $pdo, int $shipmentId, array $data, array 
         'shipper_name',
         'shipper_email',
         'shipper_phone',
-        'shipper_address'
+        'shipper_address',
+        'shipper_country',
+        'shipper_port'
     ], $data) || $saved;
 
     $saved = upsertShipmentDetail($pdo, $shipmentId, 'shipment_consignees', [
@@ -348,7 +405,9 @@ function saveShipmentDetailGroups(PDO $pdo, int $shipmentId, array $data, array 
         'notify_name',
         'notify_phone',
         'notify_address',
-        'notify_same_as_consignee'
+        'notify_same_as_consignee',
+        'consignee_city',
+        'consignee_country'
     ], $data) || $saved;
 
     $saved = upsertShipmentDetail($pdo, $shipmentId, 'shipment_vessels', [
@@ -367,7 +426,21 @@ function saveShipmentDetailGroups(PDO $pdo, int $shipmentId, array $data, array 
         'departure_time',
         'pickup_date',
         'pickup_time',
-        'final_destination'
+        'final_destination',
+        'vir_number',
+        'igm_number',
+        'igm_date',
+        'vir_confirmation_date',
+        'vessel_status',
+        'berthed_at',
+        'last_port_of_call',
+        'exp_date_of_arrival',
+        'exp_time_of_arrival',
+        'exp_departure_date',
+        'exp_departure_time',
+        'berthing_date',
+        'sailing_date',
+        'vir_launched_by'
     ], $data) || $saved;
 
     $saved = upsertShipmentDetail($pdo, $shipmentId, 'shipment_transport', [
@@ -421,8 +494,16 @@ function saveShipmentDetailGroups(PDO $pdo, int $shipmentId, array $data, array 
             $del->execute([$shipmentId]);
 
             $insertCols = [
-                'shipment_id','container_id','container_no','goods_description','hs_code','commodity_type','num_packages','package_type','gross_weight','net_weight','volume_cbm','package_dimensions','marks_numbers','country_of_origin','cargo_value','package_description','un_number','dg_class','packing_group','total_pkgs_text','declared_value','created_at','updated_at'
+                'shipment_id','container_id','container_no','goods_description','hs_code','commodity_type','num_packages','package_type','gross_weight','net_weight','volume_cbm','package_dimensions','marks_numbers','country_of_origin','cargo_value','package_description','un_number','dg_class','packing_group','total_pkgs_text','declared_value'
             ];
+            // shipment-level IGM fields are stored on every cargo row (read back from the first row)
+            $igmCargoCols = [];
+            foreach (['delivery_mode', 'stuffing_status', 'via_port', 'plot_number'] as $igmCol) {
+                if (tableHasColumn($pdo, 'shipment_cargo_details', $igmCol)) {
+                    $igmCargoCols[] = $igmCol;
+                }
+            }
+            $insertCols = array_merge($insertCols, $igmCargoCols, ['created_at', 'updated_at']);
             $placeholders = implode(', ', array_fill(0, count($insertCols), '?'));
             $sql = 'INSERT INTO shipment_cargo_details (' . implode(', ', $insertCols) . ') VALUES (' . $placeholders . ')';
             $insStmt = $pdo->prepare($sql);
@@ -453,6 +534,10 @@ function saveShipmentDetailGroups(PDO $pdo, int $shipmentId, array $data, array 
                 $row[] = $c['packing_group'] ?? null;
                 $row[] = $c['total_pkgs_text'] ?? null;
                 $row[] = $c['declared_value'] ?? null;
+                foreach ($igmCargoCols as $igmCol) {
+                    $v = $data[$igmCol] ?? null;
+                    $row[] = ($v === '' ? null : $v);
+                }
                 $row[] = date('Y-m-d H:i:s');
                 $row[] = date('Y-m-d H:i:s');
 
@@ -482,7 +567,11 @@ function saveShipmentDetailGroups(PDO $pdo, int $shipmentId, array $data, array 
             'dg_class',
             'packing_group',
             'total_pkgs_text',
-            'declared_value'
+            'declared_value',
+            'delivery_mode',
+            'stuffing_status',
+            'via_port',
+            'plot_number'
         ], $data) || $saved;
     }
 
@@ -669,20 +758,10 @@ function createShipment(PDO $pdo, array $data): string
         // insert containers first and capture their IDs to link cargo rows
         $containerIds = [];
         if (!empty($containerEntries)) {
-            $containerStmt = $pdo->prepare("INSERT INTO shipment_containers (shipment_id, container_no, container_type, seal_no, origin, destination, iso_code, gross_weight, net_weight, soc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            [$containerSql, $containerCols] = containerInsertSpec($pdo);
+            $containerStmt = $pdo->prepare($containerSql);
             foreach ($containerEntries as $container) {
-                $containerStmt->execute([
-                    $shipmentId,
-                    $container['container_no'] ?? null,
-                    $container['container_type'] ?? null,
-                    $container['seal_no'] ?? null,
-                    $container['origin'] ?? null,
-                    $container['destination'] ?? null,
-                    $container['iso_code'] ?? null,
-                    $container['gross_weight'] ?? null,
-                    $container['net_weight'] ?? null,
-                    $container['soc'] ?? 'N'
-                ]);
+                $containerStmt->execute(containerInsertValues($containerCols, (int)$shipmentId, $container));
                 $containerIds[] = (int)$pdo->lastInsertId();
             }
         }
@@ -788,20 +867,10 @@ function updateShipment(PDO $pdo, int $id, array $data): bool
                 $deleteContainerStmt = $pdo->prepare("DELETE FROM shipment_containers WHERE shipment_id = ?");
                 $deleteContainerStmt->execute([$id]);
 
-                $containerStmt = $pdo->prepare("INSERT INTO shipment_containers (shipment_id, container_no, container_type, seal_no, origin, destination, iso_code, gross_weight, net_weight, soc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                [$containerSql, $containerCols] = containerInsertSpec($pdo);
+                $containerStmt = $pdo->prepare($containerSql);
                 foreach ($containerEntries as $container) {
-                    $containerStmt->execute([
-                        $id,
-                        $container['container_no'] ?? null,
-                        $container['container_type'] ?? null,
-                        $container['seal_no'] ?? null,
-                        $container['origin'] ?? null,
-                        $container['destination'] ?? null,
-                        $container['iso_code'] ?? null,
-                        $container['gross_weight'] ?? null,
-                        $container['net_weight'] ?? null,
-                        $container['soc'] ?? 'N'
-                    ]);
+                    $containerStmt->execute(containerInsertValues($containerCols, (int)$id, $container));
                     $containerIds[] = (int)$pdo->lastInsertId();
                 }
             }

@@ -82,7 +82,7 @@ window.CargoReleasePage = {
                 <tr>
                     <td><strong>${shipment.tracking_number || ''}</strong></td>
                     <td>${shipment.consignee_name || ''}</td>
-                    <td>AED ${parseFloat(paymentSummary.total_amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                    <td>PKR ${parseFloat(paymentSummary.total_amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                     <td>${this.getPaymentBadge(paymentSummary.payment_status || 'n/a')}</td>
                     <td>${releaseBadge}</td>
                     <td>${reasonText || releaseDate ? `<div class="small text-muted">${reasonText}${reasonText && releaseDate ? ' • ' : ''}${releaseDate}</div>` : ''}</td>
@@ -101,7 +101,7 @@ window.CargoReleasePage = {
                     </td>
                     <td>
                         <div class="small text-muted">
-                            ${paymentSummary.payment_status === 'paid' ? 'Payment cleared' : `Remaining: AED ${parseFloat(paymentSummary.remaining_amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+                            ${paymentSummary.payment_status === 'paid' ? 'Payment cleared' : `Remaining: PKR ${parseFloat(paymentSummary.remaining_amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
                         </div>
                     </td>
                 </tr>`;

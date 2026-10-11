@@ -75,7 +75,7 @@ window.InvoicePage = {
                                 <td>${invoice.shipment_tracking_number || ''}</td>
                                 <td>${invoice.consignee_name || ''}</td>
                                 <td>${creatorText}</td>
-                                <td><strong>AED ${parseFloat(invoice.total_amount).toLocaleString()}</strong></td>
+                                <td><strong>PKR ${parseFloat(invoice.total_amount).toLocaleString()}</strong></td>
                                 <td>${statusBadge}</td>
                                 <td>${paymentBadge}</td>
                                 <td>${createdDate}</td>
@@ -217,9 +217,9 @@ window.InvoicePage = {
                                     <div class="row g-3 mb-3">
                                         <div class="col-md-3"><strong>Invoice:</strong><br>${invoice.invoice_number || '—'}</div>
                                         <div class="col-md-3"><strong>Consignee:</strong><br>${invoice.consignee_name || '—'}</div>
-                                        <div class="col-md-2"><strong>Total:</strong><br>AED ${total}</div>
-                                        <div class="col-md-2"><strong>Paid:</strong><br>AED ${paid}</div>
-                                        <div class="col-md-2"><strong>Balance:</strong><br>AED ${balance}</div>
+                                        <div class="col-md-2"><strong>Total:</strong><br>PKR ${total}</div>
+                                        <div class="col-md-2"><strong>Paid:</strong><br>PKR ${paid}</div>
+                                        <div class="col-md-2"><strong>Balance:</strong><br>PKR ${balance}</div>
                                     </div>
                                     ${payments.length ? `
                                         <div class="table-responsive">
@@ -238,7 +238,7 @@ window.InvoicePage = {
                                                     ${payments.map((payment, index) => `
                                                         <tr>
                                                             <td>${payment.payment_date || '—'}</td>
-                                                            <td>AED ${parseFloat(payment.amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                                                            <td>PKR ${parseFloat(payment.amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                                                             <td>${payment.payment_method || '—'}</td>
                                                             <td>${payment.reference_number || '—'}</td>
                                                             <td>${payment.notes || '—'}</td>
@@ -295,7 +295,7 @@ window.InvoicePage = {
                 <p><strong>Invoice:</strong> ${invoiceNumber}</p>
                 <p><strong>Consignee:</strong> ${consignee}</p>
                 <p><strong>Payment Date:</strong> ${paymentDate}</p>
-                <p><strong>Amount:</strong> AED ${amount}</p>
+                <p><strong>Amount:</strong> PKR ${amount}</p>
                 <p><strong>Method:</strong> ${method}</p>
                 <p><strong>Reference:</strong> ${reference}</p>
                 <p><strong>Notes:</strong> ${notes}</p>

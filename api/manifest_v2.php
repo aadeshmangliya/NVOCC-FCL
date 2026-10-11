@@ -318,6 +318,30 @@ foreach ($containerSummaryFields as $field) {
     }
 }
 
+// ---------- IGM helpers ----------
+function igmFmtDate($value, $withTime = false)
+{
+    $value = trim((string)$value);
+    if ($value === '' || strpos($value, '0000-00-00') === 0) {
+        return '';
+    }
+    $ts = strtotime($value);
+    return $ts ? date($withTime ? 'd/m/Y H:i:s' : 'd/m/Y', $ts) : $value;
+}
+
+function igmIsoFromType($type)
+{
+    $t = strtoupper((string)$type);
+    if ($t === '') return '';
+    $size = (strpos($t, '40') !== false) ? '40' : ((strpos($t, '20') !== false) ? '20' : '');
+    if (strpos($t, 'REEFER') !== false) return $size . 'RF';
+    if (strpos($t, 'OPEN TOP') !== false) return $size . 'OT';
+    if (strpos($t, 'FLAT') !== false) return $size . 'FR';
+    if (strpos($t, 'HC') !== false || strpos($t, 'HIGH CUBE') !== false) return $size . 'HC';
+    if (strpos($t, 'GP') !== false) return $size . 'GP';
+    return '';
+}
+
 // ============================================================
 // Generate Delivery Order container rows HTML (container_rows_html)
 // Used by the 'delivery_order' document type template.
@@ -399,13 +423,33 @@ foreach ($containers as $container) {
 // ============================================================
 $igmContainerRowsHtml = '';
 foreach ($containers as $container) {
+    $cid = $container['id'] ?? null;
+    $rows = $containerCargoMap[$cid] ?? [];
+    $totals = $containerTotals[$cid] ?? ['total_packages' => 0, 'total_weight' => 0, 'total_cbm' => 0];
+
+    // gross / net: use the container's own values, else fall back to its cargo rows
+    $cGross = (float)($container['gross_weight'] ?? 0);
+    if ($cGross <= 0) {
+        $cGross = (float)($totals['total_weight'] ?? 0);
+    }
+    $cNet = (float)($container['net_weight'] ?? 0);
+    if ($cNet <= 0) {
+        foreach ($rows as $r) {
+            $cNet += (float)($r['net_weight'] ?? 0);
+        }
+    }
+    $cIso = trim((string)($container['iso_code'] ?? ''));
+    if ($cIso === '') {
+        $cIso = igmIsoFromType($container['container_type'] ?? '');
+    }
+
     $igmContainerRowsHtml .= '<tr>';
     $igmContainerRowsHtml .= '<td>' . htmlspecialchars($container['container_no'] ?? '') . '</td>';
     $igmContainerRowsHtml .= '<td>' . htmlspecialchars($container['seal_no'] ?? '') . '</td>';
-    $igmContainerRowsHtml .= '<td>' . htmlspecialchars($container['iso_code'] ?? '') . '</td>';
-    $igmContainerRowsHtml .= '<td>' . htmlspecialchars($container['gross_weight'] ?? '0.00') . '</td>';
-    $igmContainerRowsHtml .= '<td>' . htmlspecialchars($container['net_weight'] ?? '0.00') . '</td>';
-    $igmContainerRowsHtml .= '<td>' . htmlspecialchars($container['soc'] ?? 'N') . '</td>';
+    $igmContainerRowsHtml .= '<td>' . htmlspecialchars($cIso) . '</td>';
+    $igmContainerRowsHtml .= '<td>' . number_format($cGross, 2, '.', '') . '</td>';
+    $igmContainerRowsHtml .= '<td>' . number_format($cNet, 2, '.', '') . '</td>';
+    $igmContainerRowsHtml .= '<td>' . htmlspecialchars(($container['soc'] ?? 'N') === 'Y' ? 'Y' : 'N') . '</td>';
     $igmContainerRowsHtml .= '</tr>';
 }
 
@@ -470,6 +514,15 @@ if ($blCargoDescHtml === '') {
 $blFreightTerms = strtolower((string)($shipment['freight_terms'] ?? ''));
 $blTotalFreight = $shipment['total_freight'] ?? '';
 $blPlaceIssue = $shipment['place_of_issue'] ?? '';
+
+// IGM header values: formatted dates + sensible fallbacks
+$igmArrival   = !empty($shipment['exp_date_of_arrival']) ? $shipment['exp_date_of_arrival'] : ($shipment['eta'] ?? '');
+$igmDeparture = !empty($shipment['exp_departure_date']) ? $shipment['exp_departure_date'] : ($shipment['etd'] ?? '');
+$igmShipType  = strtoupper((string)($shipment['type_of_shipment'] ?? ''));
+$igmStuffing  = !empty($shipment['stuffing_status']) ? $shipment['stuffing_status']
+    : (strpos($igmShipType, 'LCL') !== false ? 'LCL' : (strpos($igmShipType, 'FCL') !== false ? 'FCL' : ''));
+$igmDelivery  = !empty($shipment['delivery_mode']) ? $shipment['delivery_mode']
+    : ($igmStuffing === 'LCL' ? 'CFS' : ($igmStuffing === 'FCL' ? 'CY' : ''));
 
 // Prepare data for template
 $data = array_merge($shipment, $firstContainer, [
@@ -536,7 +589,19 @@ $data = array_merge($shipment, $firstContainer, [
     'total_freight_collect' => strpos($blFreightTerms, 'collect') !== false ? $blTotalFreight : '',
     'governing_law' => $shipment['governing_law'] ?? $blPlaceIssue,
     'jurisdiction_place' => $shipment['jurisdiction_place'] ?? $blPlaceIssue,
-    'signatory_location' => $blPlaceIssue
+    'signatory_location' => $blPlaceIssue,
+
+    // ---- IGM formatted header values ----
+    'exp_date_of_arrival' => igmFmtDate($igmArrival),
+    'exp_departure_date' => igmFmtDate($igmDeparture),
+    'berthing_date' => igmFmtDate($shipment['berthing_date'] ?? ''),
+    'sailing_date' => igmFmtDate($shipment['sailing_date'] ?? ''),
+    'vir_confirmation_date' => igmFmtDate($shipment['vir_confirmation_date'] ?? '', true),
+    'igm_date' => igmFmtDate($shipment['igm_date'] ?? ''),
+    'exp_time_of_arrival' => substr((string)($shipment['exp_time_of_arrival'] ?? ''), 0, 5),
+    'exp_departure_time' => substr((string)($shipment['exp_departure_time'] ?? ''), 0, 5),
+    'stuffing_status' => $igmStuffing,
+    'delivery_mode' => $igmDelivery
 ]);
 
 // Fixed renderTemplate function with proper type hints
