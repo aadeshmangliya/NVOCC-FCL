@@ -352,3 +352,23 @@ hr {
     margin: 10px 0;
     border-color: #e9ecef;
 }
+
+@media (min-width: 769px) {
+    .admin-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        overflow-y: auto;       /* a very long menu scrolls inside the sidebar itself */
+    }
+
+    .admin-main {
+        margin-left: 260px;     /* same as the sidebar width */
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .admin-main {
+        margin-left: 220px;     /* sidebar is 220px on tablets */
+    }
+}

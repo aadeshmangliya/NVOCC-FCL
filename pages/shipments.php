@@ -9,7 +9,8 @@ $currentUserRole = $_SESSION['role'] ?? 'admin';
 <meta name="user-role" content="<?php echo htmlspecialchars($currentUserRole); ?>">
 
 <link rel="stylesheet" href="../assets/css/shipments-table.css">
-<link rel="stylesheet" href="../assets/css/rgsl-bl-modal.css">
+<link rel="stylesheet" href="../assets/css/rgsl-bl-modal.css?v=<?php echo @filemtime(__DIR__ . '/../assets/css/rgsl-bl-modal.css'); ?>">
+<link rel="stylesheet" href="../assets/css/shipments-form-inline.css?v=<?php echo @filemtime(__DIR__ . '/../assets/css/shipments-form-inline.css'); ?>">
 <div id="shipments-page" class="page-content" data-user-role="<?php echo htmlspecialchars($currentUserRole); ?>">
 
   <!-- ══════ LIST VIEW ══════ -->
@@ -57,11 +58,11 @@ $currentUserRole = $_SESSION['role'] ?? 'admin';
         </button>
         <h5 class="modal-title mb-0" id="blModalLabel">
           <i class="bi bi-file-earmark-text me-2"></i>
-          Bill of Lading
+           Bill of Lading
         </h5>
         <div style="width:70px;"><!-- spacer to balance the Back button --></div>
       </div>
-      <div class="card-body px-4 pt-3 pb-2">
+      <div class="card-body bl-form-body">
         <form id="bl-form" novalidate>
           <!-- ── Tabs ── -->
           <ul class="nav nav-tabs mb-0" id="blTabs" role="tablist">
@@ -76,7 +77,7 @@ $currentUserRole = $_SESSION['role'] ?? 'admin';
             <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-tracking"
                 type="button"><i class="bi bi-geo-alt"></i>Tracking & BL</button></li>
           </ul>
-          <div class="tab-content border border-top-0 rounded-bottom p-3">
+          <div class="tab-content">
             <!-- ══════ TAB 1: PARTIES ══════ -->
             <div class="tab-pane fade show active" id="tab-parties">
               <div class="sec-head"><i class="bi bi-building"></i>Shipper / Exporter</div>
@@ -235,7 +236,6 @@ $currentUserRole = $_SESSION['role'] ?? 'admin';
                   <label class="form-label">Carrier / Shipping Line <span class="req">*</span></label>
                   <select class="form-select" name="carrier" required>
                     <option value="">-- Select --</option>
-                    <option>Royal Gulf Shipping LLC</option>
                     <option>Maersk Line</option>
                     <option>MSC</option>
                     <option>CMA CGM</option>

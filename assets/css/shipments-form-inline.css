@@ -1,0 +1,220 @@
+/* ==========================================================================
+   Create / Edit Shipment — inline form (replaces the old popup)
+   Everything is scoped to #shipments-form-view so no other page is affected.
+   It overrides the popup-only rules in rgsl-bl-modal.css (.tab-content scroller)
+   and the global ".card { height: 100vh }" rule in style.css.
+   ========================================================================== */
+
+#shipments-form-view {
+    max-width: 1320px;
+    margin: 0 auto 30px;
+}
+
+/* --- one clean card, no inner scroller ---------------------------------- */
+#shipments-form-view .card {
+    height: auto;            /* style.css forces 100vh */
+    min-height: 0;
+    overflow: visible;
+    border: 0;
+    border-radius: 12px;
+    box-shadow: 0 4px 22px rgba(0, 0, 0, .09);
+}
+
+#shipments-form-view .tab-content {
+    max-height: none;        /* rgsl-bl-modal.css: 60vh + scroll */
+    overflow: visible;
+    border: 0;
+    padding: 0;
+}
+
+/* --- header bar ----------------------------------------------------------- */
+#shipments-form-view .modal-header {
+    padding: 16px 26px;
+    border-radius: 12px 12px 0 0;
+}
+
+#shipments-form-view .modal-title {
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: .3px;
+    color: #fff;
+}
+
+#shipments-form-view #btn-back-to-list {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 7px 16px;
+    border: 1px solid rgba(255, 255, 255, .55);
+    border-radius: 8px;
+    color: #fff;
+    background: rgba(255, 255, 255, .08);
+}
+
+#shipments-form-view #btn-back-to-list:hover {
+    background: rgba(255, 255, 255, .22);
+}
+
+#shipments-form-view .bl-form-body {
+    padding: 22px 30px 10px;
+}
+
+/* --- tabs ----------------------------------------------------------------- */
+#shipments-form-view .nav-tabs {
+    flex-wrap: wrap;
+    gap: 6px;
+    border-bottom: 2px solid #e3ebea;
+    margin-bottom: 22px;
+}
+
+#shipments-form-view .nav-tabs .nav-link {
+    font-size: 15px;
+    font-weight: 600;
+    padding: 11px 24px;
+    color: #5a6a69 !important;
+    background: transparent;
+    border: 0;
+    border-bottom: 3px solid transparent;
+    border-radius: 8px 8px 0 0;
+    margin-bottom: -2px;
+}
+
+#shipments-form-view .nav-tabs .nav-link i {
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+#shipments-form-view .nav-tabs .nav-link:hover {
+    background: #f1f7f6;
+}
+
+#shipments-form-view .nav-tabs .nav-link.active {
+    color: var(--rg-teal, #007069) !important;
+    background: #eaf5f4;
+    border-bottom-color: var(--rg-teal, #007069);
+}
+
+#shipments-form-view .nav-tabs .nav-item,
+#shipments-form-view .modal-footer .btn {
+    flex: 0 0 auto;          /* keep tabs / buttons at their natural width */
+}
+
+/* --- section headings ----------------------------------------------------- */
+#shipments-form-view .sec-head {
+    font-size: 15px;
+    font-weight: 700;
+    padding: 10px 18px;
+    margin: 28px 0 16px;
+    border-radius: 8px;
+    letter-spacing: .3px;
+}
+
+#shipments-form-view .tab-pane > .sec-head:first-child {
+    margin-top: 4px;
+}
+
+#shipments-form-view .sec-head i {
+    margin-right: 8px;
+}
+
+/* --- labels & inputs (bigger, easier to read) ------------------------------ */
+#shipments-form-view .form-label {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #3b4a49;
+    margin-bottom: 6px;
+}
+
+#shipments-form-view .form-control,
+#shipments-form-view .form-select {
+    font-size: 14.5px;
+    padding: 9px 13px;
+    border: 1px solid #cdd8d7;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+#shipments-form-view textarea.form-control {
+    min-height: 74px;
+}
+
+#shipments-form-view .form-control::placeholder {
+    color: #a3afae;
+}
+
+#shipments-form-view .form-control:focus,
+#shipments-form-view .form-select:focus {
+    border-color: var(--rg-teal, #007069);
+    box-shadow: 0 0 0 3px rgba(0, 112, 105, .15);
+}
+
+#shipments-form-view .row.g-3 {
+    --bs-gutter-y: 1.15rem;
+}
+
+/* --- containers / cargo / package table ------------------------------------ */
+#shipments-form-view .container-entry {
+    background: #fbfdfc;
+    border-color: #dfe9e8 !important;
+    border-radius: 10px !important;
+}
+
+#shipments-form-view .container-entry h6 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--rg-teal, #007069);
+}
+
+#shipments-form-view #cargo-accordion-wrapper .accordion-header .accordion-button {
+    font-size: 14.5px;
+    padding: 13px 18px;
+}
+
+#shipments-form-view #cargo-accordion-wrapper .form-label {
+    font-size: 13.5px;
+}
+
+#shipments-form-view #cargo-accordion-wrapper .accordion-body {
+    padding: 18px;
+}
+
+#shipments-form-view .pkg-table {
+    font-size: 13.5px;
+}
+
+#shipments-form-view .pkg-table th {
+    padding: 9px 8px;
+}
+
+#shipments-form-view .form-check-label,
+#shipments-form-view .form-text,
+#shipments-form-view small {
+    font-size: 13px;
+}
+
+/* --- footer: Previous | Cancel | Reset | Next | Create ----------------------- */
+#shipments-form-view .modal-footer {
+    padding: 16px 30px;
+    gap: 10px;
+    background: #f7faf9;
+    border-top: 1px solid #e3ebea;
+    border-radius: 0 0 12px 12px;
+    flex-wrap: wrap;
+}
+
+#shipments-form-view .modal-footer .btn,
+#shipments-form-view .modal-footer .btn-sm {
+    font-size: 14.5px;
+    font-weight: 600;
+    padding: 9px 24px;
+    border-radius: 8px;
+}
+
+/* --- phones ---------------------------------------------------------------- */
+@media (max-width: 768px) {
+    #shipments-form-view .bl-form-body { padding: 16px 14px 6px; }
+    #shipments-form-view .nav-tabs { flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; }
+    #shipments-form-view .nav-tabs .nav-link { white-space: nowrap; padding: 10px 16px; font-size: 14px; }
+    #shipments-form-view .modal-title { font-size: 15px; }
+    #shipments-form-view .modal-footer { padding: 12px 14px; }
+    #shipments-form-view .modal-footer .btn { padding: 8px 16px; font-size: 14px; }
+}

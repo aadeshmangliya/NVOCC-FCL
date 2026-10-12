@@ -8,8 +8,8 @@ class MailConfig
             return false;
         }
 
-        $fromName = env('MAIL_FROM_NAME', 'Royal Gulf Shipping');
-        $fromEmail = env('MAIL_FROM_ADDRESS', 'noreply@royalgulfshipping.com');
+        $fromName = env('MAIL_FROM_NAME', 'Indus Magna Shipping');
+        $fromEmail = env('MAIL_FROM_ADDRESS', 'noreply@indusmagnashipping.com');
 
         try {
             $mailDriver = env('MAIL_DRIVER', 'smtp');
@@ -38,7 +38,7 @@ class MailConfig
         $headers .= "Reply-To: " . $fromEmail . "\r\n";
         // Anti-spam headers
         $headers .= "Return-Path: <" . $fromEmail . ">\r\n";
-        $headers .= "X-Mailer: Royal Gulf Shipping\r\n";
+        $headers .= "X-Mailer: Indus Magna Shipping\r\n";
         $headers .= "X-Priority: 3\r\n";
         $headers .= "Importance: Normal\r\n";
         $headers .= "X-MSMail-Priority: Normal\r\n";
@@ -173,7 +173,7 @@ class MailConfig
             // Anti-spam headers
             $headers .= "Return-Path: <$fromEmail>\r\n";
             $headers .= "Reply-To: $fromEmail\r\n";
-            $headers .= "X-Mailer: Royal Gulf Shipping\r\n";
+            $headers .= "X-Mailer: Indus Magna Shipping\r\n";
             $headers .= "X-Priority: 3\r\n";
             $headers .= "Importance: Normal\r\n";
             $headers .= "X-MSMail-Priority: Normal\r\n";

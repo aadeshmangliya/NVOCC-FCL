@@ -1085,6 +1085,12 @@ const ShipmentsPage = {
             }
 
             self.updateNavButtons(safeIdx);
+
+            // page scrolls normally now - if the user scrolled down, go back to the top of the form
+            const formView = document.getElementById('shipments-form-view');
+            if (formView && formView.getBoundingClientRect().top < 0) {
+                formView.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
 
         this.updateNavButtons(0);
